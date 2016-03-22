@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="software,workflow,stampy,mapping," />
+  <meta name="keywords" content="software,workflow,stampy,mapping,varscan,snp,indel," />
 
 
 
@@ -63,7 +63,7 @@
 <meta property="og:url" content="http://www.bioinfo.site/2016/03/22/stampy/index.html">
 <meta property="og:site_name" content="Bioinfo Notes">
 <meta property="og:description" content="Stampy能将illumina二代测序仪生成的短DNA序列片段比对到参考基因组上  Varscan能利用pileup文件检测SNPs和indels等">
-<meta property="og:updated_time" content="2016-03-22T08:22:59.000Z">
+<meta property="og:updated_time" content="2016-03-22T08:38:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Stampy和Varscan 操作流程">
 <meta name="twitter:description" content="Stampy能将illumina二代测序仪生成的短DNA序列片段比对到参考基因组上  Varscan能利用pileup文件检测SNPs和indels等">
@@ -370,8 +370,19 @@ COMMANDS:
 <h6 id="生成bam文件"><a href="#生成bam文件" class="headerlink" title="生成bam文件"></a>生成bam文件</h6><p><code>samtools view -bS out_stampy.sam &gt; out_stampy.bam</code></p>
 <h6 id="bam文件排序"><a href="#bam文件排序" class="headerlink" title="bam文件排序"></a>bam文件排序</h6><p><code>samtools sort  out_stampy.bam out_stampy.sort</code></p>
 <h6 id="排序后索引"><a href="#排序后索引" class="headerlink" title="排序后索引"></a>排序后索引</h6><p><code>samtools index out_stampy.sort.bam</code></p>
-<h6 id="查看每个碱基的比对情况"><a href="#查看每个碱基的比对情况" class="headerlink" title="查看每个碱基的比对情况"></a>查看每个碱基的比对情况</h6><p><code>samtools mpileup -f ref_gene.fa out_stampy.sort.bam -o out_stampy_mpileup</code><br>samtools的mpileu用于生成bcf文件，再使用bcftools进行SNP和Indel的分析。mpileup不使用-u或-g参数时，则不生成二进制的bcf文件，而生成一个文本文件(输出到标准输出)。该文本文件统计了参考序列中每个碱基位点的比对情况，该文件每一行代表了参考序列中某一个碱基位点的比对结果。比如：<br>    scaffold_1      2841    A       11      ,,,…,….     BHIGDGIJ?FF<br>    scaffold_1      2842    C       12      ,$,,…,….^I. CFGEGEGGCFF+<br>    scaffold_1      2843    G       11      ,,…,…..     FDDDDCD?DD+<br>    scaffold_1      2844    G       11      ,,…,…..     FA?AAAA&lt;AA+<br>    scaffold_1      2845    G       11      ,,…,…..     F656666166<em><br>    scaffold_1      2846    A       11      ,,…,…..     (1.1111)11</em></p>
-<h6 id="Varscan得到indel结果"><a href="#Varscan得到indel结果" class="headerlink" title="Varscan得到indel结果"></a>Varscan得到indel结果</h6><p><code>java -jar VarScan.v2.3.9.jar mpileup2indel out_stampy_mpileup &gt; out_stampy_varscan_result</code></p>
+<h6 id="查看每个碱基的比对情况"><a href="#查看每个碱基的比对情况" class="headerlink" title="查看每个碱基的比对情况"></a>查看每个碱基的比对情况</h6><p><code>samtools mpileup -f ref_gene.fa out_stampy.sort.bam -o out_stampy_mpileup</code><br>samtools的mpileu用于生成bcf文件，再使用bcftools进行SNP和Indel的分析。mpileup不使用-u或-g参数时，则不生成二进制的bcf文件，而生成一个文本文件(输出到标准输出)。该文本文件统计了参考序列中每个碱基位点的比对情况，该文件每一行代表了参考序列中某一个碱基位点的比对结果。比如：</p>
+<pre><code>scaffold_1      2841    A       11      ,,,...,....     BHIGDGIJ?FF
+scaffold_1      2842    C       12      ,$,,...,....^I. CFGEGEGGCFF+
+scaffold_1      2843    G       11      ,,...,.....     FDDDDCD?DD+
+scaffold_1      2844    G       11      ,,...,.....     FA?AAAA&lt;AA+
+scaffold_1      2845    G       11      ,,...,.....     F656666166*
+scaffold_1      2846    A       11      ,,...,.....     (1.1111)11*
+</code></pre><h6 id="Varscan得到indel结果"><a href="#Varscan得到indel结果" class="headerlink" title="Varscan得到indel结果"></a>Varscan得到indel结果</h6><p><code>java -jar VarScan.v2.3.9.jar mpileup2indel out_stampy_mpileup &gt; out_stampy_varscan_result</code></p>
+<h6 id="参考文件"><a href="#参考文件" class="headerlink" title="参考文件"></a>参考文件</h6><ol>
+<li><a href="http://www.well.ox.ac.uk/project-stampy" target="_blank" rel="external">stampy官网</a></li>
+<li><a href="http://varscan.sourceforge.net/index.html" target="_blank" rel="external">varscan官网</a></li>
+<li><a href="http://genome.cshlp.org/content/21/6/936" target="_blank" rel="external">Lunter and Goodson. Stampy: a statistical algorithm for sensitive and fast mapping of Illumina sequence reads. Genome Res. 2011. 21:936-939.</a></li>
+</ol>
 
       
     </div>
@@ -394,6 +405,12 @@ COMMANDS:
           
             <a href="/tags/mapping/" rel="tag">#mapping</a>
           
+            <a href="/tags/varscan/" rel="tag">#varscan</a>
+          
+            <a href="/tags/snp/" rel="tag">#snp</a>
+          
+            <a href="/tags/indel/" rel="tag">#indel</a>
+          
         </div>
       
 
@@ -401,8 +418,8 @@ COMMANDS:
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/21/testt/" rel="next" title="testt">
-                <i class="fa fa-chevron-left"></i> testt
+              <a href="/2016/03/19/markdown/" rel="next" title="markdown练习">
+                <i class="fa fa-chevron-left"></i> markdown练习
               </a>
             
           </div>
@@ -479,7 +496,7 @@ COMMANDS:
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -496,7 +513,7 @@ COMMANDS:
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -530,7 +547,7 @@ COMMANDS:
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#Stampy软件安装"><span class="nav-number">1.</span> <span class="nav-text">Stampy软件安装</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#环境默认为python-2-7"><span class="nav-number">1.1.</span> <span class="nav-text">环境默认为python 2.7</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#否则，安装2-7后"><span class="nav-number">1.2.</span> <span class="nav-text">否则，安装2.7后</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Stampy软件参数"><span class="nav-number">2.</span> <span class="nav-text">Stampy软件参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Varscan软件参数"><span class="nav-number">3.</span> <span class="nav-text">Varscan软件参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#操作流程"><span class="nav-number">4.</span> <span class="nav-text">操作流程</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#建立参考序列基因组索引"><span class="nav-number">4.1.</span> <span class="nav-text">建立参考序列基因组索引</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#建立参考序列hash文件"><span class="nav-number">4.2.</span> <span class="nav-text">建立参考序列hash文件</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#paired-end序列比对并生成sam文件"><span class="nav-number">4.3.</span> <span class="nav-text">paired-end序列比对并生成sam文件</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#生成bam文件"><span class="nav-number">4.4.</span> <span class="nav-text">生成bam文件</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#bam文件排序"><span class="nav-number">4.5.</span> <span class="nav-text">bam文件排序</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#排序后索引"><span class="nav-number">4.6.</span> <span class="nav-text">排序后索引</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#查看每个碱基的比对情况"><span class="nav-number">4.7.</span> <span class="nav-text">查看每个碱基的比对情况</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Varscan得到indel结果"><span class="nav-number">4.8.</span> <span class="nav-text">Varscan得到indel结果</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#Stampy软件安装"><span class="nav-number">1.</span> <span class="nav-text">Stampy软件安装</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#环境默认为python-2-7"><span class="nav-number">1.1.</span> <span class="nav-text">环境默认为python 2.7</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#否则，安装2-7后"><span class="nav-number">1.2.</span> <span class="nav-text">否则，安装2.7后</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Stampy软件参数"><span class="nav-number">2.</span> <span class="nav-text">Stampy软件参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Varscan软件参数"><span class="nav-number">3.</span> <span class="nav-text">Varscan软件参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#操作流程"><span class="nav-number">4.</span> <span class="nav-text">操作流程</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#建立参考序列基因组索引"><span class="nav-number">4.1.</span> <span class="nav-text">建立参考序列基因组索引</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#建立参考序列hash文件"><span class="nav-number">4.2.</span> <span class="nav-text">建立参考序列hash文件</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#paired-end序列比对并生成sam文件"><span class="nav-number">4.3.</span> <span class="nav-text">paired-end序列比对并生成sam文件</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#生成bam文件"><span class="nav-number">4.4.</span> <span class="nav-text">生成bam文件</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#bam文件排序"><span class="nav-number">4.5.</span> <span class="nav-text">bam文件排序</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#排序后索引"><span class="nav-number">4.6.</span> <span class="nav-text">排序后索引</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#查看每个碱基的比对情况"><span class="nav-number">4.7.</span> <span class="nav-text">查看每个碱基的比对情况</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Varscan得到indel结果"><span class="nav-number">4.8.</span> <span class="nav-text">Varscan得到indel结果</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#参考文件"><span class="nav-number">4.9.</span> <span class="nav-text">参考文件</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
