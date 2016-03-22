@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="software,indel,snp,workflow," />
+  <meta name="keywords" content="software,pindel,indel," />
 
 
 
@@ -58,18 +58,30 @@
 
 
 <meta name="description" content="一级标题二级标题正文
-参考资料">
+Pindel version 0.2.5b3, 20150721.
+
+Usage:     pindel -f &amp;lt;reference.fa&amp;gt; -p &amp;lt;pindel_input&amp;gt;
+           [and/or -i bam_configuration_file]
+           -c &amp;lt;chromosome_name&amp;gt; -o &amp;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="GATK工作流程">
-<meta property="og:url" content="http://www.bioinfo.site/2016/03/23/gatk-workflow/index.html">
+<meta property="og:title" content="pindel 查找插入缺失">
+<meta property="og:url" content="http://www.bioinfo.site/2016/03/22/pindel/index.html">
 <meta property="og:site_name" content="Bioinfo Notes">
 <meta property="og:description" content="一级标题二级标题正文
-参考资料">
-<meta property="og:updated_time" content="2016-03-22T09:10:08.000Z">
+Pindel version 0.2.5b3, 20150721.
+
+Usage:     pindel -f &amp;lt;reference.fa&amp;gt; -p &amp;lt;pindel_input&amp;gt;
+           [and/or -i bam_configuration_file]
+           -c &amp;lt;chromosome_name&amp;gt; -o &amp;">
+<meta property="og:updated_time" content="2016-03-22T14:47:25.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="GATK工作流程">
+<meta name="twitter:title" content="pindel 查找插入缺失">
 <meta name="twitter:description" content="一级标题二级标题正文
-参考资料">
+Pindel version 0.2.5b3, 20150721.
+
+Usage:     pindel -f &amp;lt;reference.fa&amp;gt; -p &amp;lt;pindel_input&amp;gt;
+           [and/or -i bam_configuration_file]
+           -c &amp;lt;chromosome_name&amp;gt; -o &amp;">
 
 
 
@@ -87,7 +99,7 @@
   };
 </script>
 
-  <title> GATK工作流程 | Bioinfo Notes </title>
+  <title> pindel 查找插入缺失 | Bioinfo Notes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -247,7 +259,7 @@
             
             
               
-                GATK工作流程
+                pindel 查找插入缺失
               
             
           </h1>
@@ -259,8 +271,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-23T11:07:51+08:00" content="2016-03-23">
-              2016-03-23
+            <time itemprop="dateCreated" datetime="2016-03-22T18:06:22+08:00" content="2016-03-22">
+              2016-03-22
             </time>
           </span>
 
@@ -289,8 +301,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/03/23/gatk-workflow/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/23/gatk-workflow/" itemprop="commentsCount"></span>
+                <a href="/2016/03/22/pindel/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/22/pindel/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -313,7 +325,29 @@
 
       
         <h5 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h5><h6 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h6><p>正文</p>
-<h6 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h6><p><a href="http://" target="_blank" rel="external"></a></p>
+<pre><code>Pindel version 0.2.5b3, 20150721.
+
+Usage:     pindel -f &lt;reference.fa&gt; -p &lt;pindel_input&gt;
+           [and/or -i bam_configuration_file]
+           -c &lt;chromosome_name&gt; -o &lt;prefix_for_output_file&gt;
+
+Required parameters:
+           -f/--fasta
+           the reference genome sequences in fasta format
+
+           -p/--pindel-file
+           the Pindel input file; either this, a pindel configuration file
+           (consisting of multiple pindel filenames) or a bam configuration file
+           is required
+
+           -i/--config-file
+           the bam config file; either this, a pindel input file, or a pindel
+           config file is required. Per line: path and file name of bam, insert
+           size and sample tag.     For example: /data/tumour.bam  400  tumour
+
+           -o/--output-prefix
+           Output prefix;
+</code></pre><h6 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h6><p><a href="http://" target="_blank" rel="external"></a></p>
 
       
     </div>
@@ -330,11 +364,9 @@
           
             <a href="/tags/software/" rel="tag">#software</a>
           
+            <a href="/tags/pindel/" rel="tag">#pindel</a>
+          
             <a href="/tags/indel/" rel="tag">#indel</a>
-          
-            <a href="/tags/snp/" rel="tag">#snp</a>
-          
-            <a href="/tags/workflow/" rel="tag">#workflow</a>
           
         </div>
       
@@ -343,13 +375,17 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/22/samtools/" rel="next" title="samtools 简要事例">
-                <i class="fa fa-chevron-left"></i> samtools 简要事例
+              <a href="/2016/03/22/stampy/" rel="next" title="Stampy和Varscan 操作流程">
+                <i class="fa fa-chevron-left"></i> Stampy和Varscan 操作流程
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/22/bowtie/" rel="prev" title="bowtie2 简单说明事例">
+                bowtie2 简单说明事例 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -375,8 +411,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/03/23/gatk-workflow/"
-           data-title="GATK工作流程" data-url="http://www.bioinfo.site/2016/03/23/gatk-workflow/">
+      <div class="ds-thread" data-thread-key="2016/03/22/pindel/"
+           data-title="pindel 查找插入缺失" data-url="http://www.bioinfo.site/2016/03/22/pindel/">
       </div>
     
   </div>
