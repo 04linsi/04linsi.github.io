@@ -57,19 +57,16 @@
 
 
 
-<meta name="description" content="一级标题二级标题正文
-参考资料">
+<meta name="description" content="短序列比对软件包，含三种算法：BWA-backtrack（用于短于100bp的reads）, BWA-SW 和 BWA-MEM（此三者用于70bp到1Mbp的reads，对高质量序列MEM速度和准确性更好，且在70-100bp上也优于BWA-backtrack）">
 <meta property="og:type" content="article">
 <meta property="og:title" content="bwa 简要示例">
 <meta property="og:url" content="http://www.bioinfo.site/2016/03/22/bwa/index.html">
 <meta property="og:site_name" content="Bioinfo Notes">
-<meta property="og:description" content="一级标题二级标题正文
-参考资料">
-<meta property="og:updated_time" content="2016-03-23T03:26:29.000Z">
+<meta property="og:description" content="短序列比对软件包，含三种算法：BWA-backtrack（用于短于100bp的reads）, BWA-SW 和 BWA-MEM（此三者用于70bp到1Mbp的reads，对高质量序列MEM速度和准确性更好，且在70-100bp上也优于BWA-backtrack）">
+<meta property="og:updated_time" content="2016-03-23T06:58:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="bwa 简要示例">
-<meta name="twitter:description" content="一级标题二级标题正文
-参考资料">
+<meta name="twitter:description" content="短序列比对软件包，含三种算法：BWA-backtrack（用于短于100bp的reads）, BWA-SW 和 BWA-MEM（此三者用于70bp到1Mbp的reads，对高质量序列MEM速度和准确性更好，且在70-100bp上也优于BWA-backtrack）">
 
 
 
@@ -312,8 +309,33 @@
       
 
       
-        <h5 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h5><h6 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h6><p>正文</p>
-<h6 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h6><p><a href="http://" target="_blank" rel="external"></a></p>
+        <h5 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h5><pre><code>Program: bwa (alignment via Burrows-Wheeler transformation)
+Version: 0.7.10-r789
+Contact: Heng Li &lt;lh3@sanger.ac.uk&gt;
+
+Usage:   bwa &lt;command&gt; [options]
+
+Command: index         index sequences in the FASTA format
+         mem           BWA-MEM algorithm
+         fastmap       identify super-maximal exact matches
+         pemerge       merge overlapping paired ends (EXPERIMENTAL)
+         aln           gapped/ungapped alignment
+         samse         generate alignment (single ended)
+         sampe         generate alignment (paired ended)
+         bwasw         BWA-SW for long queries
+
+         fa2pac        convert FASTA to PAC format
+         pac2bwt       generate BWT from PAC
+         pac2bwtgen    alternative algorithm for generating BWT
+         bwtupdate     update .bwt to the new format
+         bwt2sa        generate SA from BWT and Occ
+
+Note: To use BWA, you need to first index the genome with `bwa index&apos;.
+      There are three alignment algorithms in BWA: `mem&apos;, `bwasw&apos;, and
+      `aln/samse/sampe&apos;. If you are not sure which to use, try `bwa mem&apos;
+      first. Please `man ./bwa.1&apos; for the manual.
+</code></pre><h6 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h6><p>正文</p>
+<h6 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h6><p><a href="http://bio-bwa.sourceforge.net/" target="_blank" rel="external">bwa官网</a><br><a href="http://www.plob.org/2011/03/06/25.html" target="_blank" rel="external">bwa的使用方法</a></p>
 
       
     </div>
@@ -474,7 +496,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#一级标题"><span class="nav-number">1.</span> <span class="nav-text">一级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#二级标题"><span class="nav-number">1.1.</span> <span class="nav-text">二级标题</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#参考资料"><span class="nav-number">1.2.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#参数说明"><span class="nav-number">1.</span> <span class="nav-text">参数说明</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#二级标题"><span class="nav-number">1.1.</span> <span class="nav-text">二级标题</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#参考资料"><span class="nav-number">1.2.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
