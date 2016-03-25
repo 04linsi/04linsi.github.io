@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="software,snp,indel,samtools,sam,bam,vcf," />
+  <meta name="keywords" content="perl,test," />
 
 
 
@@ -57,16 +57,19 @@
 
 
 
-<meta name="description" content="用于操作sam和bam文件的工具合集">
+<meta name="description" content="计呵正是呵呵
+参考资料">
 <meta property="og:type" content="article">
-<meta property="og:title" content="samtools 简要示例">
-<meta property="og:url" content="http://www.bioinfo.site/2016/03/22/samtools/index.html">
+<meta property="og:title" content="perl 备记录">
+<meta property="og:url" content="http://www.bioinfo.site/2016/03/25/perl-tips1/index.html">
 <meta property="og:site_name" content="Bioinfo Notes">
-<meta property="og:description" content="用于操作sam和bam文件的工具合集">
-<meta property="og:updated_time" content="2016-03-23T03:31:39.000Z">
+<meta property="og:description" content="计呵正是呵呵
+参考资料">
+<meta property="og:updated_time" content="2016-03-25T03:48:56.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="samtools 简要示例">
-<meta name="twitter:description" content="用于操作sam和bam文件的工具合集">
+<meta name="twitter:title" content="perl 备记录">
+<meta name="twitter:description" content="计呵正是呵呵
+参考资料">
 
 
 
@@ -84,7 +87,7 @@
   };
 </script>
 
-  <title> samtools 简要示例 | Bioinfo Notes </title>
+  <title> perl 备记录 | Bioinfo Notes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -244,7 +247,7 @@
             
             
               
-                samtools 简要示例
+                perl 备记录
               
             
           </h1>
@@ -256,19 +259,38 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-22T22:07:30+08:00" content="2016-03-22">
-              2016-03-22
+            <time itemprop="dateCreated" datetime="2016-03-25T11:46:36+08:00" content="2016-03-25">
+              2016-03-25
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/perl/" itemprop="url" rel="index">
+                    <span itemprop="name">perl</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/03/22/samtools/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/22/samtools/" itemprop="commentsCount"></span>
+                <a href="/2016/03/25/perl-tips1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/25/perl-tips1/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -290,68 +312,8 @@
       
 
       
-        <h5 id="傻瓜式教程"><a href="#傻瓜式教程" class="headerlink" title="傻瓜式教程"></a>傻瓜式教程</h5><p> <code>samtools view -bS test.sam &gt; test.bam</code><br> <code>samtools sort test.bam test.sort</code><br> <code>samtools index test.sort.bam</code><br> <code>samtools tview test.sort.bam ref.fasta</code></p>
-<hr>
-<h5 id="软件参数"><a href="#软件参数" class="headerlink" title="软件参数"></a>软件参数</h5><pre><code>Version: 0.1.19-44428cd
-
-Usage:   samtools &lt;command&gt; [options]
-
-Command: view        SAM&lt;-&gt;BAM conversion
-         sort        sort alignment file
-         mpileup     multi-way pileup
-         depth       compute the depth
-         faidx       index/extract FASTA
-         tview       text alignment viewer
-         index       index alignment
-         idxstats    BAM index stats (r595 or later)
-         fixmate     fix mate information
-         flagstat    simple stats
-         calmd       recalculate MD/NM tags and &apos;=&apos; bases
-         merge       merge sorted alignments
-         rmdup       remove PCR duplicates
-         reheader    replace BAM header
-         cat         concatenate BAMs
-         bedcov      read depth per BED region
-         targetcut   cut fosmid regions (for fosmid pool only)
-         phase       phase heterozygotes
-         bamshuf     shuffle and group alignments by name
-</code></pre><h5 id="view"><a href="#view" class="headerlink" title="view"></a>view</h5><p>主要功能：sam文件与bam文件互转（数据的排序和提取等需要bam格式）</p>
-<pre><code>Usage:   samtools view [options] &lt;in.bam&gt;|&lt;in.sam&gt; [region1 [...]]
-
-Options: -b       output BAM（默认output是sam，有此参数output是bam）
-         -h       print header for the SAM output（默认sam输出不带header，有此参数加header）
-         -H       print header only (no alignments)
-         -S       input is SAM（默认input是bam，有此参数input是sam）
-         -u       uncompressed BAM output (force -b)（有此参数得指定-b参数，输出的bam不压缩，节约时间）
-</code></pre><p><code>samtools view -bS test.sam &gt; test.bam</code></p>
-<h5 id="sort"><a href="#sort" class="headerlink" title="sort"></a>sort</h5><p>功能：对bam文件进行排序<br><code>samtools sort test.bam test.sort</code></p>
-<h5 id="index"><a href="#index" class="headerlink" title="index"></a>index</h5><p>功能：对sort过的bam文件建立索引<br>生成.bai文件，用于快速的随机处理。<strong>显示序列比对情况，如tview就需要index。</strong></p>
-<p><code>samtools index test.sort.bam test.sort.bam.bai</code></p>
-<h5 id="faidx"><a href="#faidx" class="headerlink" title="faidx"></a>faidx</h5><p>功能：对fasta文件建立索引,生成的索引文件以.fai后缀结尾。该命令也能依据索引文件快速提取fasta文件中的某一条（子）序列<strong>（mpileup时需要）</strong></p>
-<pre><code>`#由于有索引文件，可以使用以下命令很快从基因组中提取到fasta格式的子序列`
-`samtools faidx genome.fasta scffold_10 &gt; scaffold_10.fasta`
-</code></pre><h5 id="tview"><a href="#tview" class="headerlink" title="tview"></a>tview</h5><p>功能：能直观的显示出reads比对基因组的情况，和基因组浏览器有点类似。</p>
-<pre><code>Usage: samtools tview [options] &lt;aln.bam&gt; [ref.fasta]
-Options:
-   -d display      output as (H)tml or (C)urses or (T)ext
-   -p chr:pos      go directly to this position
-   -s STR          display only reads from this sample or group
-</code></pre><p><code>#如果不加ref.fasta就不显示参考序列的信息</code><br><code>samtools tview test.sort.bam ref.fasta</code></p>
-<h5 id="mpileup"><a href="#mpileup" class="headerlink" title="mpileup"></a>mpileup</h5><p>功能：生成bcf(variant call format)文件，再使用bcftools进行SNP和Indel分析，常用参数有2个：</p>
-<pre><code>Usage: samtools mpileup [options] in1.bam [in2.bam [...]]
-
-Input options:
-       -f FILE      faidx indexed reference sequence file [null] 
-                       输入有索引文件的fasta参考序列
-Output options:
-       -D           output per-sample DP in BCF (require -g/-u)
-       -S           output per-sample strand bias P-value in BCF (require -g/-u)
-       -g           generate BCF output (genotype likelihoods)
-                       输出到bcf格式。不使用-u或-g参数时，则不生成二进制的bcf文件，而生成一个文本文件(输出到标准输出)
-</code></pre><p><code>samtools mpileup -f ref.fa  test.sort.bam &gt; test.txt</code><br><code>samtools mpileup -gSDf ref.fa test.bam &gt; abc.bcf</code></p>
-<h5 id="bcftools"><a href="#bcftools" class="headerlink" title="bcftools"></a>bcftools</h5><p>功能：用于处理bcf（二进制）和vcf（文本）文件<br>最主要的命令是view命令，进行SNP和Indel calling。</p>
-<p><code>bcftools view -cvNg abc.bcf &gt; snp_indel.vcf</code></p>
-<h5 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h5><p><a href="http://www.plob.org/2014/01/26/7112.html" target="_blank" rel="external">samtools常用命令详解</a></p>
+        <h5 id="计呵"><a href="#计呵" class="headerlink" title="计呵"></a>计呵</h5><p>正是呵呵</p>
+<h6 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h6><p><a href="http://" target="_blank" rel="external"></a></p>
 
       
     </div>
@@ -366,19 +328,9 @@ Output options:
       
         <div class="post-tags">
           
-            <a href="/tags/software/" rel="tag">#software</a>
+            <a href="/tags/perl/" rel="tag">#perl</a>
           
-            <a href="/tags/snp/" rel="tag">#snp</a>
-          
-            <a href="/tags/indel/" rel="tag">#indel</a>
-          
-            <a href="/tags/samtools/" rel="tag">#samtools</a>
-          
-            <a href="/tags/sam/" rel="tag">#sam</a>
-          
-            <a href="/tags/bam/" rel="tag">#bam</a>
-          
-            <a href="/tags/vcf/" rel="tag">#vcf</a>
+            <a href="/tags/test/" rel="tag">#test</a>
           
         </div>
       
@@ -387,17 +339,13 @@ Output options:
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/22/bwa/" rel="next" title="bwa 简要示例">
-                <i class="fa fa-chevron-left"></i> bwa 简要示例
+              <a href="/2016/03/23/gatk-workflow/" rel="next" title="GATK工作流程">
+                <i class="fa fa-chevron-left"></i> GATK工作流程
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/03/23/linux-tips/" rel="prev" title="linux 小技巧">
-                linux 小技巧 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -423,8 +371,8 @@ Output options:
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/03/22/samtools/"
-           data-title="samtools 简要示例" data-url="http://www.bioinfo.site/2016/03/22/samtools/">
+      <div class="ds-thread" data-thread-key="2016/03/25/perl-tips1/"
+           data-title="perl 备记录" data-url="http://www.bioinfo.site/2016/03/25/perl-tips1/">
       </div>
     
   </div>
@@ -520,7 +468,7 @@ Output options:
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#傻瓜式教程"><span class="nav-number">1.</span> <span class="nav-text">傻瓜式教程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#软件参数"><span class="nav-number">2.</span> <span class="nav-text">软件参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#view"><span class="nav-number">3.</span> <span class="nav-text">view</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#sort"><span class="nav-number">4.</span> <span class="nav-text">sort</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#index"><span class="nav-number">5.</span> <span class="nav-text">index</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#faidx"><span class="nav-number">6.</span> <span class="nav-text">faidx</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#tview"><span class="nav-number">7.</span> <span class="nav-text">tview</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mpileup"><span class="nav-number">8.</span> <span class="nav-text">mpileup</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#bcftools"><span class="nav-number">9.</span> <span class="nav-text">bcftools</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#参考资料"><span class="nav-number">10.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#计呵"><span class="nav-number">1.</span> <span class="nav-text">计呵</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#参考资料"><span class="nav-number">1.1.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
