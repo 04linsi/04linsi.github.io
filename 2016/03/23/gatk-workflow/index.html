@@ -63,13 +63,13 @@
 <meta property="og:url" content="http://www.bioinfo.site/2016/03/23/gatk-workflow/index.html">
 <meta property="og:site_name" content="Bioinfo Notes">
 <meta property="og:description" content="GATK(Genome Analysis Toolkit) 是Broad Institute开发高通量测序数据分析的软件包，原先是为了处理千人基因组的数据才开发的，解决了千人基因组测的很多低覆盖度的样本call出来的snp的假阳性太高问题，同时提出了二代测序技术数据处理的一个框架。主要用于突变检测，基因分型，并重视数据质量准确性（低覆盖度数据的校正）">
-<meta property="og:image" content="http://www.bioinfo.site/images/gatk_workflow1.png">
 <meta property="og:image" content="http://www.bioinfo.site/images/gatk_workflow2.png">
-<meta property="og:updated_time" content="2016-03-24T09:02:11.000Z">
+<meta property="og:image" content="http://www.bioinfo.site/images/gatk_workflow1.png">
+<meta property="og:updated_time" content="2016-03-25T02:42:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GATK工作流程">
 <meta name="twitter:description" content="GATK(Genome Analysis Toolkit) 是Broad Institute开发高通量测序数据分析的软件包，原先是为了处理千人基因组的数据才开发的，解决了千人基因组测的很多低覆盖度的样本call出来的snp的假阳性太高问题，同时提出了二代测序技术数据处理的一个框架。主要用于突变检测，基因分型，并重视数据质量准确性（低覆盖度数据的校正）">
-<meta name="twitter:image" content="http://www.bioinfo.site/images/gatk_workflow1.png">
+<meta name="twitter:image" content="http://www.bioinfo.site/images/gatk_workflow2.png">
 
 
 
@@ -312,11 +312,56 @@
       
 
       
-        <h5 id="整体流程"><a href="#整体流程" class="headerlink" title="整体流程"></a>整体流程</h5><p>先盗两整体流程框架图，一个是以前，一个是最新的</p>
-<p><img src="/images/gatk_workflow1.png" alt="gatk_best_practices_1"></p>
+        <h5 id="整体流程"><a href="#整体流程" class="headerlink" title="整体流程"></a>整体流程</h5><p>先盗两整体流程框架图，一个是最新的，一个是以前的</p>
 <p><img src="/images/gatk_workflow2.png" alt="gatk_best_practices_1"></p>
-<h6 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h6><p>正文</p>
-<h6 id="二级标题-1"><a href="#二级标题-1" class="headerlink" title="二级标题"></a>二级标题</h6><h6 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h6><p><a href="https://www.broadinstitute.org/gatk/guide/best-practices.php" target="_blank" rel="external">GATK Best Practices</a><br><a href="http://www.plob.org/2014/02/21/7070.html" target="_blank" rel="external">GATK使用</a><br><a href="http://blog.163.com/zhoulili1987619@126/blog/static/3530820120139158521986/" target="_blank" rel="external">GATK使用简介</a></p>
+<p><img src="/images/gatk_workflow1.png" alt="gatk_best_practices_1"></p>
+<h5 id="pre-processing"><a href="#pre-processing" class="headerlink" title="pre-processing"></a>pre-processing</h5><h6 id="参考基因组构建索引（BWA比对）"><a href="#参考基因组构建索引（BWA比对）" class="headerlink" title="参考基因组构建索引（BWA比对）"></a>参考基因组构建索引（BWA比对）</h6><p><code>bwa index -a bwtsw ucsc.hg19.fasta</code></p>
+<h6 id="生成sam格式的比对文件（BWA比对）"><a href="#生成sam格式的比对文件（BWA比对）" class="headerlink" title="生成sam格式的比对文件（BWA比对）"></a>生成sam格式的比对文件（BWA比对）</h6><p><code>bwa mem ref.fasta 1.fq 2.fq &gt; result.01.sam</code></p>
+<p><em>注：此样本的测序深度较高，reads读长大于100bp（具体多少？），所以不用其它两种算法（其它两种是什么），而采用mem算法</em></p>
+<h6 id="对sam文件进行重新排序"><a href="#对sam文件进行重新排序" class="headerlink" title="对sam文件进行重新排序"></a>对sam文件进行重新排序</h6><p><code>java -jar picard-tools-1.119/ReorderSam.jar I=result.01.sam O=result.reorder.02.sam R=ref.fasta</code></p>
+<h6 id="将sam文件转换成bam文件"><a href="#将sam文件转换成bam文件" class="headerlink" title="将sam文件转换成bam文件"></a>将sam文件转换成bam文件</h6><p><code>samtools view -bS result.reorder.02.sam -o result.reorder.03.bam</code></p>
+<h6 id="对bam文件进行sort排序处理"><a href="#对bam文件进行sort排序处理" class="headerlink" title="对bam文件进行sort排序处理"></a>对bam文件进行sort排序处理</h6><p>java -jar picard-tools-1.119/SortSam.jar INPUT=result.reorder.03.bam OUTPUT=result.sort.04.bam SORT_ORDER=coordinate</p>
+<p>对bam文件进行加头（head）处理</p>
+<p>java -jar picard-tools-1.119/AddOrReplaceReadGroups.jar I=/share/data/bioinfo/linsi/project/2015/result/result.sort.04.bam O=/share/data/bioinfo/linsi/project/2015/result/result.add.05.bam ID=group1 LB=lib1 PL=illumina PU=barcode SM=sample1</p>
+<ol>
+<li>Duplicates Marking （标记过量扩增序列）：</li>
+</ol>
+<p>java -jar /share/data/bioinfo/linsi/biosoft/picard-tools-1.119/MarkDuplicates.jar  REMOVE_DUPLICATES=false MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=8000 INPUT=/share/data/bioinfo/linsi/project/2015/result/result.add.05.bam OUTPUT=/share/data/bioinfo/linsi/project/2015/result/result.dedup.06.bam METRICS_FILE=/share/data/bioinfo/linsi/project/2015/result/result.dedup.06.metrics</p>
+<ol>
+<li>生成索引文件：</li>
+</ol>
+<p>samtools index /share/data/bioinfo/linsi/project/2015/result/result.dedup.06.bam</p>
+<ol>
+<li><p>Local realignment around indels （将比对到indel附近的reads进行局部重新比对，将比对的错误率降到最低）</p>
+<p> 注：以下两命令当源文件为illumina旧版的fastq格式需加参数–fix_misencoded_quality_scores，新版的fastq格式不加</p>
+<p> 1) 通过运行RealignerTargetCreator来确定要进行重新比对的区域：</p>
+<p> java -jar /share/biosoft/apps/GTK3.4-46/GenomeAnalysisTK.jar -R /share/data/bioinfo/linsi/database/hg19/ucsc.hg19.fasta -T RealignerTargetCreator –fix_misencoded_quality_scores -I /share/data/bioinfo/linsi/project/2015/result/result.dedup.06.bam -o /share/data/bioinfo/linsi/project/2015/result/result.dedup.07.intervals -known /share/data/bioinfo/linsi/database/hg19/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf -known /share/data/bioinfo/linsi/database/hg19/1000G_phase1.indels.hg19.sites.vcf</p>
+<p> 2) 通过运行IndelRealigner在这些区域内进行重新比对：</p>
+<p> java -jar /share/biosoft/apps/GTK3.4-46/GenomeAnalysisTK.jar -R /share/data/bioinfo/linsi/database/hg19/ucsc.hg19.fasta -T IndelRealigner –fix_misencoded_quality_scores -targetIntervals /share/data/bioinfo/linsi/project/2015/result/result.dedup.07.intervals -I /share/data/bioinfo/linsi/project/2015/result/result.dedup.06.bam -o /share/data/bioinfo/linsi/project/2015/result/result.realn.08.bam -known /share/data/bioinfo/linsi/database/hg19/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf -known /share/data/bioinfo/linsi/database/hg19/1000G_phase1.indels.hg19.sites.vcf</p>
+</li>
+<li><p>Base quality score recalibration (BQSR) 对bam文件里reads的碱基质量值进行重新校正，使最后输出的bam文件中reads中碱基的质量值能够更加接近真实的与参考基因组之间错配的概率：</p>
+<p> 1) 利用工具BaseRecalibrator，根据一些known sites，生成一个校正质量值所需要的数据文件：</p>
+<p> java -jar /share/biosoft/apps/GTK3.4-46/GenomeAnalysisTK.jar -T BaseRecalibrator -R /share/data/bioinfo/linsi/database/hg19/ucsc.hg19.fasta -I /share/data/bioinfo/linsi/project/2015/result/result.realn.08.bam -o /share/data/bioinfo/linsi/project/2015/result/result.realn.09_1.grp -knownSites /share/data/bioinfo/linsi/database/hg19/dbsnp_138.hg19.vcf -knownSites /share/data/bioinfo/linsi/database/hg19/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf -knownSites /share/data/bioinfo/linsi/database/hg19/1000G_phase1.indels.hg19.sites.vcf</p>
+<p> 2) 利用工具PrintReads将经过质量值校正的数据输出到新的bam文件中，用于后续的变异检测：</p>
+<p> java -jar /share/biosoft/apps/GTK3.4-46/GenomeAnalysisTK.jar -T PrintReads -R /share/data/bioinfo/linsi/database/hg19/ucsc.hg19.fasta -I /share/data/bioinfo/linsi/project/2015/result/result.realn.08.bam -BQSR /share/data/bioinfo/linsi/project/2015/result/result.realn.09_1.grp -o /share/data/bioinfo/linsi/project/2015/result/result.realn.09_3.grp.bam</p>
+</li>
+<li><p>calling variants with haplotypecaller (生成vcf文件)</p>
+<p>java -jar /share/biosoft/apps/GTK3.4-46/GenomeAnalysisTK.jar -T HaplotypeCaller -R /share/data/bioinfo/linsi/database/hg19/ucsc.hg19.fasta -I /share/data/bioinfo/linsi/project/2015/result/result.realn.09_3.grp.bam –genotyping_mode DISCOVERY –output_mode EMIT_VARIANTS_ONLY -stand_emit_conf 10 -stand_call_conf 30 -o /share/data/bioinfo/linsi/project/2015/result/result.10.raw_variants.vcf</p>
+</li>
+<li><p>variant quality score recalibration (VQSR) </p>
+<p>1) 建立SNP校正模型（这一步可以尽可能多的设置注释类型和tranche的值，然后根据这次跑出来的结果选择出最好的注释类型和tranche值之后，再次运行VariantRecalibrator）：</p>
+<p>java -jar /share/biosoft/apps/GTK3.4-46/GenomeAnalysisTK.jar -T VariantRecalibrator -R /share/data/bioinfo/linsi/database/hg19/ucsc.hg19.fasta –maxGaussians 4 -input /share/data/bioinfo/linsi/project/2015/result/result.10.raw_variants.vcf -resource:hapmap,known=false,training=true,truth=true,prior=15.0 /share/data/bioinfo/linsi/database/hg19/hapmap_3.3.hg19.sites.vcf -resource:omni,known=false,training=true,truth=false,prior=12.0 /share/data/bioinfo/linsi/database/hg19/1000G_omni2.5.hg19.sites.vcf -resource:1000G,known=false,training=true,truth=false,prior=10.0 /share/data/bioinfo/linsi/database/hg19/1000G_phase1.snps.high_confidence.hg19.sites.vcf -resource:dbsnp,known=true,training=false,truth=false,prior=2.0 /share/data/bioinfo/linsi/database/hg19/dbsnp_138.hg19.vcf -an DP -an MQ -an QD -mode SNP -tranche 99.9 -tranche 99.0 -tranche 97.0 -tranche 95.0 -tranche 93.0 -minNumBad 1000 -recalFile /share/data/bioinfo/linsi/project/2015/result/result.10.vcf.recal -tranchesFile /share/data/bioinfo/linsi/project/2015/result/result.10.vcf.tranches -rscriptFile /share/data/bioinfo/linsi/project/2015/result/result.10.vcf.R</p>
+<p>2) 这一步run出来的结果可以直接用于下一步的ApplyRecalibration：</p>
+<p>java -jar /share/biosoft/apps/GTK3.4-46/GenomeAnalysisTK.jar -T VariantRecalibrator -R /share/data/bioinfo/linsi/database/hg19/ucsc.hg19.fasta –maxGaussians 4 -input /share/data/bioinfo/linsi/project/2015/result/result.10.raw_variants.vcf -mode SNP -resource:hapmap,known=false,training=true,truth=true,prior=15.0 /share/data/bioinfo/linsi/database/hg19/hapmap_3.3.hg19.sites.vcf -resource:omni,known=false,training=true,truth=false,prior=12.0 /share/data/bioinfo/linsi/database/hg19/1000G_omni2.5.hg19.sites.vcf -resource:1000G,known=false,training=true,truth=false,prior=10.0 /share/data/bioinfo/linsi/database/hg19/1000G_phase1.snps.high_confidence.hg19.sites.vcf -resource:dbsnp,known=true,training=false,truth=false,prior=2.0 /share/data/bioinfo/linsi/database/hg19/dbsnp_138.hg19.vcf -an DP -an MQ -an QD –TStranche 99.0 -recalFile /share/data/bioinfo/linsi/project/2015/result/result.10.vcf.real.recal -tranchesFile /share/data/bioinfo/linsi/project/2015/result/result.10.vcf.real.tranches -rscriptFile /share/data/bioinfo/linsi/project/2015/result/result.10.vcf.real.R</p>
+<p>3) 根据上步得到的校正水平做SNP校正，此时文件中的SNP位点已经全部经过校正过滤：</p>
+<p>java -jar /share/biosoft/apps/GTK3.4-46/GenomeAnalysisTK.jar -R /share/data/bioinfo/linsi/database/hg19/ucsc.hg19.fasta -T ApplyRecalibration -mode SNP -input /share/data/bioinfo/linsi/project/2015/result/result.10.raw_variants.vcf -recalFile /share/data/bioinfo/linsi/project/2015/result/result.10.vcf.real.recal -tranchesFile /share/data/bioinfo/linsi/project/2015/result/result.10.vcf.real.tranches -o /share/data/bioinfo/linsi/project/2015/result/result.10.recalibrated_snps_raw_indels.vcf</p>
+<p>4) 对INDEL结果进行校正，同SNP多选择一些注释类型，但是不用选择tranche值,tranche值是专门为SNP设定的</p>
+<p>java -jar /share/biosoft/apps/GTK3.4-46/GenomeAnalysisTK.jar -T VariantRecalibrator -R /share/data/bioinfo/linsi/database/hg19/ucsc.hg19.fasta -mode INDEL –maxGaussians 4 -std 10.0 -input /share/data/bioinfo/linsi/project/2015/result/result.10.recalibrated_snps_raw_indels.vcf -resource:mills,known=true,training=true,truth=true,prior=12.0 /share/data/bioinfo/linsi/database/hg19/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf -an DP -an MQ -an QD -an FS -an MQRankSum -recalFile /share/data/bioinfo/linsi/project/2015/result/result.11.recalibrate.indel.recal -tranchesFile /share/data/bioinfo/linsi/project/2015/result/result.11.recalibrate.indel.tranches -rscriptFile /share/data/bioinfo/linsi/project/2015/result/result.11.recalibrate.indel.R</p>
+<p>5) 根据上步得到的校正水平做INDEL校正</p>
+<p>java -jar /share/biosoft/apps/GTK3.4-46/GenomeAnalysisTK.jar -R /share/data/bioinfo/linsi/database/hg19/ucsc.hg19.fasta -T ApplyRecalibration -mode INDEL -input /share/data/bioinfo/linsi/project/2015/result/result.10.recalibrated_snps_raw_indels.vcf -recalFile /share/data/bioinfo/linsi/project/2015/result/result.11.recalibrate.indel.recal -tranchesFile /share/data/bioinfo/linsi/project/2015/result/result.11.recalibrate.indel.tranches -o /share/data/bioinfo/linsi/project/2015/result/result.11.recalibrated_variants.vcf</p>
+</li>
+</ol>
+<h5 id="variant-discovery"><a href="#variant-discovery" class="headerlink" title="variant discovery"></a>variant discovery</h5><h5 id="callset-refinement"><a href="#callset-refinement" class="headerlink" title="callset refinement"></a>callset refinement</h5><h6 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h6><p><a href="https://www.broadinstitute.org/gatk/guide/best-practices.php" target="_blank" rel="external">GATK Best Practices</a><br><a href="http://www.plob.org/2014/02/21/7070.html" target="_blank" rel="external">GATK使用</a><br><a href="http://blog.163.com/zhoulili1987619@126/blog/static/3530820120139158521986/" target="_blank" rel="external">GATK使用简介</a></p>
 
       
     </div>
@@ -475,7 +520,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#整体流程"><span class="nav-number">1.</span> <span class="nav-text">整体流程</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#二级标题"><span class="nav-number">1.1.</span> <span class="nav-text">二级标题</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#二级标题-1"><span class="nav-number">1.2.</span> <span class="nav-text">二级标题</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#参考资料"><span class="nav-number">1.3.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#整体流程"><span class="nav-number">1.</span> <span class="nav-text">整体流程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#pre-processing"><span class="nav-number">2.</span> <span class="nav-text">pre-processing</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#参考基因组构建索引（BWA比对）"><span class="nav-number">2.1.</span> <span class="nav-text">参考基因组构建索引（BWA比对）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#生成sam格式的比对文件（BWA比对）"><span class="nav-number">2.2.</span> <span class="nav-text">生成sam格式的比对文件（BWA比对）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#对sam文件进行重新排序"><span class="nav-number">2.3.</span> <span class="nav-text">对sam文件进行重新排序</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#将sam文件转换成bam文件"><span class="nav-number">2.4.</span> <span class="nav-text">将sam文件转换成bam文件</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#对bam文件进行sort排序处理"><span class="nav-number">2.5.</span> <span class="nav-text">对bam文件进行sort排序处理</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#variant-discovery"><span class="nav-number">3.</span> <span class="nav-text">variant discovery</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#callset-refinement"><span class="nav-number">4.</span> <span class="nav-text">callset refinement</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#参考资料"><span class="nav-number">4.1.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
@@ -503,7 +548,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Samuel Lin</span>
 </div>
-
+<!--
 <div class="powered-by">
   由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
 </div>
@@ -516,7 +561,7 @@
 </div>
 
 
-
+-->
       </div>
     </footer>
 
