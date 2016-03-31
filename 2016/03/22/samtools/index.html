@@ -63,7 +63,7 @@
 <meta property="og:url" content="http://www.bioinfo.site/2016/03/22/samtools/index.html">
 <meta property="og:site_name" content="Bioinfo Notes">
 <meta property="og:description" content="用于操作sam和bam文件的工具合集">
-<meta property="og:updated_time" content="2016-03-29T07:52:24.000Z">
+<meta property="og:updated_time" content="2016-03-31T07:25:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="samtools 简要示例">
 <meta name="twitter:description" content="用于操作sam和bam文件的工具合集">
@@ -262,6 +262,25 @@
           </span>
 
           
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/软件/" itemprop="url" rel="index">
+                    <span itemprop="name">软件</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
 
           
             
@@ -325,7 +344,7 @@ Options: -b       output BAM（默认output是sam，有此参数output是bam）
          -u       uncompressed BAM output (force -b)（有此参数得指定-b参数，输出的bam不压缩，节约时间）
 </code></pre><p><code>samtools view -bS test.sam &gt; test.bam</code></p>
 <h5 id="sort"><a href="#sort" class="headerlink" title="sort"></a>sort</h5><p>功能：对bam文件进行排序<br><code>samtools sort test.bam test.sort</code></p>
-<h5 id="index"><a href="#index" class="headerlink" title="index"></a>index</h5><p>功能：对sort过的bam文件建立索引<br>生成.bai文件，用于快速的随机处理。<strong>显示序列比对情况，如tview就需要index。</strong></p>
+<h5 id="index"><a href="#index" class="headerlink" title="index"></a>index</h5><p>功能：对sort过的bam文件建立索引<br>生成.bai文件，用于快速的随机处理。<strong>显示序列比对情况（如tview）等就需要index。</strong></p>
 <p><code>samtools index test.sort.bam test.sort.bam.bai</code></p>
 <h5 id="faidx"><a href="#faidx" class="headerlink" title="faidx"></a>faidx</h5><p>功能：对fasta文件建立索引,生成的索引文件以.fai后缀结尾。该命令也能依据索引文件快速提取fasta文件中的某一条（子）序列<strong>（mpileup时需要）</strong></p>
 <pre><code>`#由于有索引文件，可以使用以下命令很快从基因组中提取到fasta格式的子序列`
