@@ -63,7 +63,7 @@
 <meta property="og:url" content="http://www.bioinfo.site/2016/03/22/bwa/index.html">
 <meta property="og:site_name" content="Bioinfo Notes">
 <meta property="og:description" content="短序列比对软件包，含三种算法：BWA-backtrack（用于短于100bp的reads）, BWA-SW 和 BWA-MEM（此二者用于70bp到1Mbp的reads，对高质量序列MEM速度和准确性更好，且在70-100bp上也优于BWA-backtrack）">
-<meta property="og:updated_time" content="2016-03-23T07:40:11.000Z">
+<meta property="og:updated_time" content="2016-03-27T08:17:15.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="bwa 简要示例">
 <meta name="twitter:description" content="短序列比对软件包，含三种算法：BWA-backtrack（用于短于100bp的reads）, BWA-SW 和 BWA-MEM（此二者用于70bp到1Mbp的reads，对高质量序列MEM速度和准确性更好，且在70-100bp上也优于BWA-backtrack）">
@@ -74,7 +74,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     scheme: 'Mist',
-    sidebar: {"position":"right","display":"hide"},
+    sidebar: {"position":"right","display":"post"},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -343,7 +343,7 @@ Options: -a STR    BWT construction algorithm: bwtsw or is [auto]
 Warning: `-a bwtsw&apos; does not work for short genomes, while `-a is&apos; and
          `-a div&apos; do not work not for long genomes. Please choose `-a&apos;
          according to the length of the genome.
-</code></pre><p><code>bwa index -a ref.fa</code></p>
+</code></pre><p><code>bwa index -a bwtsw ref.fa</code> (如果是短基因组，使用-a is)注：多短才算短？？？？</p>
 <h6 id="比对"><a href="#比对" class="headerlink" title="比对"></a>比对</h6><p>Usage:   bwa aln [options] <prefix> <in.fq></in.fq></prefix></p>
 <pre><code>Options: -n NUM    max #diff (int) or missing prob under 0.02 err rate (float) [0.04]
          -o INT    maximum number or fraction of gap opens [1]

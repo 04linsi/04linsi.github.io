@@ -63,7 +63,7 @@
 <meta property="og:url" content="http://www.bioinfo.site/2016/03/22/samtools/index.html">
 <meta property="og:site_name" content="Bioinfo Notes">
 <meta property="og:description" content="用于操作sam和bam文件的工具合集">
-<meta property="og:updated_time" content="2016-03-23T03:31:39.000Z">
+<meta property="og:updated_time" content="2016-03-29T07:52:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="samtools 简要示例">
 <meta name="twitter:description" content="用于操作sam和bam文件的工具合集">
@@ -74,7 +74,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     scheme: 'Mist',
-    sidebar: {"position":"right","display":"hide"},
+    sidebar: {"position":"right","display":"post"},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -351,7 +351,7 @@ Output options:
 </code></pre><p><code>samtools mpileup -f ref.fa  test.sort.bam &gt; test.txt</code><br><code>samtools mpileup -gSDf ref.fa test.bam &gt; abc.bcf</code></p>
 <h5 id="bcftools"><a href="#bcftools" class="headerlink" title="bcftools"></a>bcftools</h5><p>功能：用于处理bcf（二进制）和vcf（文本）文件<br>最主要的命令是view命令，进行SNP和Indel calling。</p>
 <p><code>bcftools view -cvNg abc.bcf &gt; snp_indel.vcf</code></p>
-<h5 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h5><p><a href="http://www.plob.org/2014/01/26/7112.html" target="_blank" rel="external">samtools常用命令详解</a></p>
+<h5 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h5><p><a href="http://samtools.sourceforge.net/" target="_blank" rel="external">samtools官网</a><br><a href="http://www.plob.org/2014/01/26/7112.html" target="_blank" rel="external">samtools常用命令详解</a><br><a href="https://samtools.github.io/hts-specs/SAMv1.pdf" target="_blank" rel="external">sam/bam格式说明</a><br><a href="http://samtools.sourceforge.net/pileup.shtml" target="_blank" rel="external">pileup格式说明</a></p>
 
       
     </div>
