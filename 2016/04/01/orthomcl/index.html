@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="software,workflow,snp,indel,mapping,stampy,varscan," />
+  <meta name="keywords" content="software," />
 
 
 
@@ -57,16 +57,16 @@
 
 
 
-<meta name="description" content="Stampy能将illumina二代测序仪生成的短DNA序列片段比对到参考基因组上  Varscan能利用pileup文件检测SNPs和indels等">
+<meta name="description" content="可以用来得到核心基因组，OrthoMCL is a genome-scale algorithm for grouping orthologous protein sequences. It provides not only groups shared by two or more species/genomes, but also groups representing species-spe">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Stampy和Varscan 操作流程">
-<meta property="og:url" content="http://www.bioinfo.site/2016/03/22/stampy/index.html">
+<meta property="og:title" content="OrthoMCL(v2.0.9) 使用介绍">
+<meta property="og:url" content="http://www.bioinfo.site/2016/04/01/orthomcl/index.html">
 <meta property="og:site_name" content="Bioinfo Notes">
-<meta property="og:description" content="Stampy能将illumina二代测序仪生成的短DNA序列片段比对到参考基因组上  Varscan能利用pileup文件检测SNPs和indels等">
-<meta property="og:updated_time" content="2016-03-31T07:14:38.000Z">
+<meta property="og:description" content="可以用来得到核心基因组，OrthoMCL is a genome-scale algorithm for grouping orthologous protein sequences. It provides not only groups shared by two or more species/genomes, but also groups representing species-spe">
+<meta property="og:updated_time" content="2016-04-01T06:41:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Stampy和Varscan 操作流程">
-<meta name="twitter:description" content="Stampy能将illumina二代测序仪生成的短DNA序列片段比对到参考基因组上  Varscan能利用pileup文件检测SNPs和indels等">
+<meta name="twitter:title" content="OrthoMCL(v2.0.9) 使用介绍">
+<meta name="twitter:description" content="可以用来得到核心基因组，OrthoMCL is a genome-scale algorithm for grouping orthologous protein sequences. It provides not only groups shared by two or more species/genomes, but also groups representing species-spe">
 
 
 
@@ -84,7 +84,7 @@
   };
 </script>
 
-  <title> Stampy和Varscan 操作流程 | Bioinfo Notes </title>
+  <title> OrthoMCL(v2.0.9) 使用介绍 | Bioinfo Notes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -244,7 +244,7 @@
             
             
               
-                Stampy和Varscan 操作流程
+                OrthoMCL(v2.0.9) 使用介绍
               
             
           </h1>
@@ -256,8 +256,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-22T14:03:10+08:00" content="2016-03-22">
-              2016-03-22
+            <time itemprop="dateCreated" datetime="2016-04-01T14:19:13+08:00" content="2016-04-01">
+              2016-04-01
             </time>
           </span>
 
@@ -286,8 +286,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/03/22/stampy/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/22/stampy/" itemprop="commentsCount"></span>
+                <a href="/2016/04/01/orthomcl/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/01/orthomcl/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -309,76 +309,35 @@
       
 
       
-        <h5 id="Stampy软件安装"><a href="#Stampy软件安装" class="headerlink" title="Stampy软件安装"></a>Stampy软件安装</h5><h6 id="环境默认为python-2-7"><a href="#环境默认为python-2-7" class="headerlink" title="环境默认为python 2.7"></a>环境默认为python 2.7</h6><p>输入<code>make</code></p>
-<h6 id="否则，安装2-7后"><a href="#否则，安装2-7后" class="headerlink" title="否则，安装2.7后"></a>否则，安装2.7后</h6><p>输入<code>make python=python 2.7</code></p>
-<h5 id="Stampy软件参数"><a href="#Stampy软件参数" class="headerlink" title="Stampy软件参数"></a>Stampy软件参数</h5><pre><code>Usage: ./stampy.py [options] [.fa files]
-
-
-Option summary (--help for all):
-
-Command options
- -G PREFIX file1.fa [...]           Build genome index PREFIX.stidx from fasta file(s) on command line
- -H PREFIX                          Build hash PREFIX.sthash
- -M FILE[,FILE]                     Map fastq/fasta/BAM file(s)
- -A FILE                            Convert qualities; strip adapters
-
-Mapping/output options
- -g PREFIX                          Use genome index file PREFIX.stidx
- -h PREFIX                          Use hash file PREFIX.sthash
- -o FILE                            Write mapping output to FILE [stdout]
- --readgroup=ID:id,tag:value,...    Set read-group tags (ID,SM,LB,DS,PU,PI,CN,DT,PL)  (SAM format)
- --solexa, --solexaold, --sanger    Solexa read qualities (@-based); pre-v1.3 Solexa; and Sanger (!-based, default)
- --substitutionrate=F               Set substitution rate for mapping and simulation [0.001]
- --gapopen=N                        Gap open penalty (phred score) [40]
- --gapextend=N                      Gap extension penalty (phred score) [3]
- --bwaoptions=opts                  Options and &lt;prefix&gt; for BWA pre-mapper (quote multiple options)
- --bwamaxmismatch=N                 Max number of mismatches for BWA maps; -1=auto [-1]
- --bwatmpdir=S                      Set directory for BWA temporary files
- --bwa=F                            Set BWA executable [default: bwa]
- --bwamark                          Include/mark BWA-mapped reads with XP:Z:BWA tag (produces more output lines)
-
-General options
- --help                             Full help
- -v N                               Set verbosity level (0-3) [2]
-</code></pre><h5 id="Varscan软件参数"><a href="#Varscan软件参数" class="headerlink" title="Varscan软件参数"></a>Varscan软件参数</h5><pre><code>VarScan v2.3
-
-USAGE: java -jar VarScan.jar [COMMAND] [OPTIONS]
-
-COMMANDS:
-    pileup2snp        Identify SNPs from a pileup file
-    pileup2indel        Identify indels a pileup file
-    pileup2cns        Call consensus and variants from a pileup file
-    mpileup2snp        Identify SNPs from an mpileup file
-    mpileup2indel        Identify indels an mpileup file
-    mpileup2cns        Call consensus and variants from an mpileup file
-
-    somatic            Call germline/somatic variants from tumor-normal pileups
-    copynumber            Determine relative tumor copy number from tumor-normal pileups
-    readcounts        Obtain read counts for a list of variants from a pileup file
-
-    filter            Filter SNPs by coverage, frequency, p-value, etc.
-    somaticFilter        Filter somatic variants for clusters/indels
-    fpfilter        Apply the false-positive filter
-
-    processSomatic        Isolate Germline/LOH/Somatic calls from output
-    copyCaller        GC-adjust and process copy number changes from VarScan copynumber output
-    compare            Compare two lists of positions/variants
-    limit            Restrict pileup/snps/indels to ROI positions
-</code></pre><h5 id="操作流程"><a href="#操作流程" class="headerlink" title="操作流程"></a>操作流程</h5><h6 id="建立参考序列基因组索引"><a href="#建立参考序列基因组索引" class="headerlink" title="建立参考序列基因组索引"></a>建立参考序列基因组索引</h6><p><code>./stampy.py -G ref_stampy ref_gene.fa</code></p>
-<h6 id="建立参考序列hash文件"><a href="#建立参考序列hash文件" class="headerlink" title="建立参考序列hash文件"></a>建立参考序列hash文件</h6><p><code>./stampy.py -g ref_stampy -H ref_stampy</code></p>
-<h6 id="paired-end序列比对并生成sam文件"><a href="#paired-end序列比对并生成sam文件" class="headerlink" title="paired-end序列比对并生成sam文件"></a>paired-end序列比对并生成sam文件</h6><p><code>./stampy.py -g ref_stampy -h ref_stampy -M 1.fastq \2.fastq -o out_stampy.sam</code></p>
-<h6 id="生成bam文件"><a href="#生成bam文件" class="headerlink" title="生成bam文件"></a>生成bam文件</h6><p><code>samtools view -bS out_stampy.sam &gt; out_stampy.bam</code></p>
-<h6 id="bam文件排序"><a href="#bam文件排序" class="headerlink" title="bam文件排序"></a>bam文件排序</h6><p><code>samtools sort  out_stampy.bam out_stampy.sort</code></p>
-<h6 id="排序后索引"><a href="#排序后索引" class="headerlink" title="排序后索引"></a>排序后索引</h6><p><code>samtools index out_stampy.sort.bam</code></p>
-<h6 id="查看每个碱基的比对情况"><a href="#查看每个碱基的比对情况" class="headerlink" title="查看每个碱基的比对情况"></a>查看每个碱基的比对情况</h6><p><code>samtools mpileup -f ref_gene.fa out_stampy.sort.bam -o out_stampy_mpileup</code><br>samtools的mpileu用于生成bcf文件，再使用bcftools进行SNP和Indel的分析。mpileup不使用-u或-g参数时，则不生成二进制的bcf文件，而生成一个文本文件(输出到标准输出)。该文本文件统计了参考序列中每个碱基位点的比对情况，该文件每一行代表了参考序列中某一个碱基位点的比对结果。比如：</p>
-<pre><code>scaffold_1      2841    A       11      ,,,...,....     BHIGDGIJ?FF
-scaffold_1      2842    C       12      ,$,,...,....^I. CFGEGEGGCFF+
-scaffold_1      2843    G       11      ,,...,.....     FDDDDCD?DD+
-scaffold_1      2844    G       11      ,,...,.....     FA?AAAA&lt;AA+
-scaffold_1      2845    G       11      ,,...,.....     F656666166*
-scaffold_1      2846    A       11      ,,...,.....     (1.1111)11*
-</code></pre><h6 id="Varscan得到indel结果"><a href="#Varscan得到indel结果" class="headerlink" title="Varscan得到indel结果"></a>Varscan得到indel结果</h6><p><code>java -jar VarScan.v2.3.9.jar mpileup2indel out_stampy_mpileup &gt; out_stampy_varscan_result</code></p>
-<h6 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h6><p><a href="http://www.well.ox.ac.uk/project-stampy" target="_blank" rel="external">stampy官网</a><br><a href="http://varscan.sourceforge.net/index.html" target="_blank" rel="external">varscan官网</a><br><a href="http://genome.cshlp.org/content/21/6/936" target="_blank" rel="external">Lunter and Goodson. Stampy: a statistical algorithm for sensitive and fast mapping of Illumina sequence reads. Genome Res. 2011. 21:936-939.</a></p>
+        <p>##### </p>
+<h6 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h6><p>正文</p>
+<h6 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h6><p><a href="http://" target="_blank" rel="external"></a></p>
+<p>orthoMCL软件安装服务器及路径：124.16.144.194@/data/biosoft/orthomcl-v2.0.9；<br>测试文件所在路径：/data/biosoft/orthomcl-v2.0.9/linsi/test/all路径下所有fasta格式文件；<br>配制文件路径：/data/biosoft/orthomcl-v2.0.9/orthomcl.config；<br>操作路径：/data/biosoft/orthomcl-v2.0.9/linsi/test/；<br>测试所需bin路径：/data/biosoft/orthomcl-v2.0.9/linsi/bin<br>注：步骤2-7写成的sh在194@/data/biosoft/orthomcl-v2.0.9/linsi/bin/sh_orthomcl_1，步骤11-18写成的sh在194@/data/biosoft/orthomcl-v2.0.9/linsi/bin/sh_orthomcl_2</p>
+<p>注：测试之前需安装好数据库，MCL并配制好orthoMCL（如orthomcl.config）；<br>测试过程：</p>
+<ol>
+<li>pep源文件后缀改为fasta: perl /data/biosoft/orthomcl-v2.0.9/linsi/bin/batch_rename.pl /data/biosoft/orthomcl-v2.0.9/linsi/test/all</li>
+<li>合并待测试fasta文件：cat all/*.fasta &gt; all.fasta<br>生成all.fasta文件</li>
+<li>pep文件转换为orthmcl所要求的文件：/data/biosoft/orthomcl-v2.0.9/bin/orthomclAdjustFasta hsa /data/biosoft/orthomcl-v2.0.9/linsi/test/all.fasta 1<br>（has是自己命名的种名，1 表示将在你的每个蛋白名前加上种名，并且用|隔开）生成hsa.fasta文件</li>
+<li>在test目录新建文件夹compliantFasta：mkdir compliantFasta</li>
+<li>移动文件：mv hsa.fasta compliantFasta/</li>
+<li>改写的蛋白文件进行过滤：/data/biosoft/orthomcl-v2.0.9/bin/orthomclFilterFasta /data/biosoft/orthomcl-v2.0.9/linsi/test/compliantFasta/ 10 20<br>（10表示pep序列长度不低于10，20表示stop coden所占的百分比不高于20%，生成文件goodProteins.fasta和poorProteins.fasta）</li>
+<li>BLAST建蛋白库：formatdb -i goodProteins.fasta -p T<br>生成文件goodProteins.fasta.phr, goodProteins.fasta.pin, goodProteins.fasta.psq</li>
+</ol>
+<ol>
+<li>将前两步生成的文件拷贝到服务器124.16.144.70@/share/data/wanghy/linsi/project/2015/orthomcl_blastall/下面，在orthomcl_blastall下执行：rsync -avz wanghy@124.16.144.194:/data/biosoft/orthomcl-v2.0.9/linsi/test/goodProteins* .</li>
+<li>为MCL提供相似矩阵：执行perl /share/data/wanghy/linsi/bin/orthomcl_blastall_bin/search_by_blast.pl –input /share/data/wanghy/linsi/project/2015/orthomcl_blastall/goodProteins.fasta –mode blastp –cpu 100 –database /share/data/wanghy/linsi/project/2015/orthomcl_blastall/goodProteins.fasta –outdir /share/data/wanghy/linsi/project/2015/orthomcl_blastall/abc/，在abc目录下生成goodProteins.fasta.blast<br>备选方案（此法无需更换服务器，无需执行步骤7和8，但耗时长，不建议用此法做）：blastall -p blastp -i goodProteins.fasta -d goodProteins.fasta -m 8  F -b 1000 -v 1000 -a 2 -o all_VS_all.out.tab<br>（生成文件all_VS_all.out.tab）</li>
+<li>将上一步生成的文件goodProteins.fasta.blast转移到124.16.144.194@/data/biosoft/orthomcl-v2.0.9/linsi/test/，在194@test/执行rsync -avz wanghy@124.16.144.70:/share/data/wanghy/linsi/project/2015/orthomcl_blastall/abc/goodProteins.fasta.blast .</li>
+</ol>
+<ol>
+<li>将goodProteins.fasta.blast改名，执行：mv goodProteins.fasta.blast all_VS_all.out.tab</li>
+<li>blast比对结果解析：/data/biosoft/orthomcl-v2.0.9/bin/orthomclBlastParser all_VS_all.out.tab  /data/biosoft/orthomcl-v2.0.9/linsi/test/compliantFasta/ &gt;&gt; /data/biosoft/orthomcl-v2.0.9/linsi/test/similarSequences.txt<br>（使用之前设置好的阈值等参数，设定在orthomcl.config文件；注：得删除中间结果文件，否则会报错；输出文件similarSequences.txt）</li>
+<li>解析结果导入到数据库中：/data/biosoft/orthomcl-v2.0.9/bin/orthomclLoadBlast /data/biosoft/orthomcl-v2.0.9/orthomcl.config /data/biosoft/orthomcl-v2.0.9/linsi/test/similarSequences.txt</li>
+<li>进行pairs的运算：/data/biosoft/orthomcl-v2.0.9/bin/orthomclPairs /data/biosoft/orthomcl-v2.0.9/orthomcl.config /data/biosoft/orthomcl-v2.0.9/linsi/test/orthomcl_pairs.log cleanup=no</li>
+<li>处理数据库中pairs表：/data/biosoft/orthomcl-v2.0.9/bin/orthomclDumpPairsFiles /data/biosoft/orthomcl-v2.0.9/orthomcl.config<br>（输出文件为mclInput）</li>
+<li>MCL，聚类：mcl /data/biosoft/orthomcl-v2.0.9/linsi/test/mclInput –abc -I 1.5 -o /data/biosoft/orthomcl-v2.0.9/linsi/test/mclOutput<br>（输出文件为mclOutput）</li>
+<li>结果转换成group.txt：/data/biosoft/orthomcl-v2.0.9/bin/orthomclMclToGroups my_prefix 1 &lt; mclOutput &gt; groups.txt<br>（my<em>prefix 指定在groups.txt中每个家族的前缀，如：GF</em> 则在groups.txt中，每个家族以GF_开始，1表示家族从1开始编码；生成的groups.txt可将相似基因聚类）</li>
+<li>获得矩阵：perl /data/biosoft/orthomcl-v2.0.9/linsi/bin/ortholog_matrix.pl groups.txt all/strain_name matrix_out</li>
+</ol>
 
       
     </div>
@@ -395,18 +354,6 @@ scaffold_1      2846    A       11      ,,...,.....     (1.1111)11*
           
             <a href="/tags/software/" rel="tag">#software</a>
           
-            <a href="/tags/workflow/" rel="tag">#workflow</a>
-          
-            <a href="/tags/snp/" rel="tag">#snp</a>
-          
-            <a href="/tags/indel/" rel="tag">#indel</a>
-          
-            <a href="/tags/mapping/" rel="tag">#mapping</a>
-          
-            <a href="/tags/stampy/" rel="tag">#stampy</a>
-          
-            <a href="/tags/varscan/" rel="tag">#varscan</a>
-          
         </div>
       
 
@@ -414,13 +361,13 @@ scaffold_1      2846    A       11      ,,...,.....     (1.1111)11*
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2016/03/25/perl-tips1/" rel="next" title="perl 备记录--生信1（持续更新）">
+                <i class="fa fa-chevron-left"></i> perl 备记录--生信1（持续更新）
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/03/22/pindel/" rel="prev" title="pindel 查找插入缺失">
-                pindel 查找插入缺失 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -446,8 +393,8 @@ scaffold_1      2846    A       11      ,,...,.....     (1.1111)11*
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/03/22/stampy/"
-           data-title="Stampy和Varscan 操作流程" data-url="http://www.bioinfo.site/2016/03/22/stampy/">
+      <div class="ds-thread" data-thread-key="2016/04/01/orthomcl/"
+           data-title="OrthoMCL(v2.0.9) 使用介绍" data-url="http://www.bioinfo.site/2016/04/01/orthomcl/">
       </div>
     
   </div>
@@ -543,7 +490,7 @@ scaffold_1      2846    A       11      ,,...,.....     (1.1111)11*
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#Stampy软件安装"><span class="nav-number">1.</span> <span class="nav-text">Stampy软件安装</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#环境默认为python-2-7"><span class="nav-number">1.1.</span> <span class="nav-text">环境默认为python 2.7</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#否则，安装2-7后"><span class="nav-number">1.2.</span> <span class="nav-text">否则，安装2.7后</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Stampy软件参数"><span class="nav-number">2.</span> <span class="nav-text">Stampy软件参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Varscan软件参数"><span class="nav-number">3.</span> <span class="nav-text">Varscan软件参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#操作流程"><span class="nav-number">4.</span> <span class="nav-text">操作流程</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#建立参考序列基因组索引"><span class="nav-number">4.1.</span> <span class="nav-text">建立参考序列基因组索引</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#建立参考序列hash文件"><span class="nav-number">4.2.</span> <span class="nav-text">建立参考序列hash文件</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#paired-end序列比对并生成sam文件"><span class="nav-number">4.3.</span> <span class="nav-text">paired-end序列比对并生成sam文件</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#生成bam文件"><span class="nav-number">4.4.</span> <span class="nav-text">生成bam文件</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#bam文件排序"><span class="nav-number">4.5.</span> <span class="nav-text">bam文件排序</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#排序后索引"><span class="nav-number">4.6.</span> <span class="nav-text">排序后索引</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#查看每个碱基的比对情况"><span class="nav-number">4.7.</span> <span class="nav-text">查看每个碱基的比对情况</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Varscan得到indel结果"><span class="nav-number">4.8.</span> <span class="nav-text">Varscan得到indel结果</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#参考资料"><span class="nav-number">4.9.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-6"><a class="nav-link" href="#二级标题"><span class="nav-number">1.</span> <span class="nav-text">二级标题</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#参考资料"><span class="nav-number">2.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
