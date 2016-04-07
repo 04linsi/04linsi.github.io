@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="software," />
+  <meta name="keywords" content="software,cluster," />
 
 
 
@@ -57,16 +57,16 @@
 
 
 
-<meta name="description" content="可以用来得到核心基因组，OrthoMCL is a genome-scale algorithm for grouping orthologous protein sequences. It provides not only groups shared by two or more species/genomes, but also groups representing species-spe">
+<meta name="description" content="OrthoMCL可以将各个种的蛋白使用mcl (Markov Clustering algorithm)的方法聚类一起">
 <meta property="og:type" content="article">
 <meta property="og:title" content="OrthoMCL(v2.0.9) 使用介绍">
 <meta property="og:url" content="http://www.bioinfo.site/2016/04/01/orthomcl/index.html">
 <meta property="og:site_name" content="Bioinfo Notes">
-<meta property="og:description" content="可以用来得到核心基因组，OrthoMCL is a genome-scale algorithm for grouping orthologous protein sequences. It provides not only groups shared by two or more species/genomes, but also groups representing species-spe">
-<meta property="og:updated_time" content="2016-04-01T06:44:22.000Z">
+<meta property="og:description" content="OrthoMCL可以将各个种的蛋白使用mcl (Markov Clustering algorithm)的方法聚类一起">
+<meta property="og:updated_time" content="2016-04-07T03:41:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OrthoMCL(v2.0.9) 使用介绍">
-<meta name="twitter:description" content="可以用来得到核心基因组，OrthoMCL is a genome-scale algorithm for grouping orthologous protein sequences. It provides not only groups shared by two or more species/genomes, but also groups representing species-spe">
+<meta name="twitter:description" content="OrthoMCL可以将各个种的蛋白使用mcl (Markov Clustering algorithm)的方法聚类一起">
 
 
 
@@ -309,9 +309,9 @@
       
 
       
-        <p>##### </p>
-<h6 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h6><p>正文</p>
-<h6 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h6><p><a href="http://" target="_blank" rel="external"></a></p>
+        <h5 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h5><p>直接解压即可</p>
+<h5 id="辅助工具"><a href="#辅助工具" class="headerlink" title="辅助工具"></a>辅助工具</h5><h6 id="BLAST"><a href="#BLAST" class="headerlink" title="BLAST"></a>BLAST</h6><h6 id="Database"><a href="#Database" class="headerlink" title="Database"></a>Database</h6><h6 id="Perl"><a href="#Perl" class="headerlink" title="Perl"></a>Perl</h6><h6 id="MCL-program"><a href="#MCL-program" class="headerlink" title="MCL program"></a>MCL program</h6><h6 id="Time"><a href="#Time" class="headerlink" title="Time"></a>Time</h6><h5 id="操作流程"><a href="#操作流程" class="headerlink" title="操作流程"></a>操作流程</h5><h6 id="安装和配置相关的数据库文件"><a href="#安装和配置相关的数据库文件" class="headerlink" title="安装和配置相关的数据库文件"></a>安装和配置相关的数据库文件</h6><h6 id="安装mcl"><a href="#安装mcl" class="headerlink" title="安装mcl"></a>安装mcl</h6><h6 id="安装Orthomcl"><a href="#安装Orthomcl" class="headerlink" title="安装Orthomcl"></a>安装Orthomcl</h6><h6 id="orthomclInstallSchema"><a href="#orthomclInstallSchema" class="headerlink" title="orthomclInstallSchema"></a>orthomclInstallSchema</h6><h6 id="orthomclAdjustFasta"><a href="#orthomclAdjustFasta" class="headerlink" title="orthomclAdjustFasta"></a>orthomclAdjustFasta</h6><h6 id="orthomclFilterFasta"><a href="#orthomclFilterFasta" class="headerlink" title="orthomclFilterFasta"></a>orthomclFilterFasta</h6><h6 id="All-v-all-BLAST"><a href="#All-v-all-BLAST" class="headerlink" title="All-v-all BLAST"></a>All-v-all BLAST</h6><h6 id="orthomclBlastParser"><a href="#orthomclBlastParser" class="headerlink" title="orthomclBlastParser"></a>orthomclBlastParser</h6><h6 id="orthomclLoadBlast"><a href="#orthomclLoadBlast" class="headerlink" title="orthomclLoadBlast"></a>orthomclLoadBlast</h6><h6 id="orthomclPairs"><a href="#orthomclPairs" class="headerlink" title="orthomclPairs"></a>orthomclPairs</h6><h6 id="orthomclDumpPairsFiles"><a href="#orthomclDumpPairsFiles" class="headerlink" title="orthomclDumpPairsFiles"></a>orthomclDumpPairsFiles</h6><h6 id="mcl"><a href="#mcl" class="headerlink" title="mcl"></a>mcl</h6><h6 id="orthomclMclToGroups"><a href="#orthomclMclToGroups" class="headerlink" title="orthomclMclToGroups"></a>orthomclMclToGroups</h6><p>###### </p>
+<p>###### </p>
 <p>orthoMCL软件安装服务器及路径：194@/data/biosoft/orthomcl-v2.0.9；<br>测试文件所在路径：/data/biosoft/orthomcl-v2.0.9/linsi/test/all路径下所有fasta格式文件；<br>配制文件路径：/data/biosoft/orthomcl-v2.0.9/orthomcl.config；<br>操作路径：/data/biosoft/orthomcl-v2.0.9/linsi/test/；<br>测试所需bin路径：/data/biosoft/orthomcl-v2.0.9/linsi/bin<br>注：步骤2-7写成的sh在194@/data/biosoft/orthomcl-v2.0.9/linsi/bin/sh_orthomcl_1，步骤11-18写成的sh在194@/data/biosoft/orthomcl-v2.0.9/linsi/bin/sh_orthomcl_2</p>
 <p>注：测试之前需安装好数据库，MCL并配制好orthoMCL（如orthomcl.config）；<br>测试过程：</p>
 <ol>
@@ -338,6 +338,68 @@
 <li>结果转换成group.txt：/data/biosoft/orthomcl-v2.0.9/bin/orthomclMclToGroups my_prefix 1 &lt; mclOutput &gt; groups.txt<br>（my<em>prefix 指定在groups.txt中每个家族的前缀，如：GF</em> 则在groups.txt中，每个家族以GF_开始，1表示家族从1开始编码；生成的groups.txt可将相似基因聚类）</li>
 <li>获得矩阵：perl /data/biosoft/orthomcl-v2.0.9/linsi/bin/ortholog_matrix.pl groups.txt all/strain_name matrix_out</li>
 </ol>
+<h5 id="流程代码（perl）"><a href="#流程代码（perl）" class="headerlink" title="流程代码（perl）"></a>流程代码（perl）</h5><pre><code>use DBI;
+die &quot;usage: $0 &lt;rawdata_path&gt; &lt;output_path&gt;\n&quot; if (@ARGV !=2);
+my $db_name=&quot;orthomcl&quot;;        #数据库名字
+my $db_host=&quot;localhost&quot;;    #本地操作直接localhost
+my $db_port=&quot;3306&quot;;            #mysql端口(默认是3307)
+my $username=&quot;root&quot;;        #mysql用户名
+my $password=&quot;password&quot;;    #mysql密码
+my $dsn=&quot;dbi:mysql:database=${db_name};hostname=${db_host};port=${db_port}&quot;;
+my $drh=DBI-&gt;install_driver(&quot;mysql&quot;);
+my $bin_path=&quot;/data/biosoft/orthomcl-v2.0.9/bin&quot;;
+my $orthomcl_config=&quot;/data/biosfot/orthomcl-v2.0.9/orthomcl.config&quot;;
+#删除旧的数据库（残留的同名数据库可能会有影响）
+if ($rc=$drh-&gt;func(&quot;dropdb&quot;,$db_name,$db_host,$username,$password,&quot;admin&quot;)) {
+    print &quot;drop database `&quot;,$db_name,&quot;` successfully!\n&quot;;
+}
+#新建数据库
+$rc=$drh-&gt;func(&quot;createdb&quot;,$db_name,$db_host,$username,$password,&quot;admin&quot;)or die &quot;failed to create database&quot;,$db_name,&quot;!\n&quot;;
+print &quot;create database `orthomcl` successfully!\n&quot;;
+#使用config文件对mysql进行配置，即对config文件里指定orthomcl数据库建立一些表
+system &quot;$bin_path/orthomclInstallSchema $orthomcl_config $ARGV[1]/install_schema.log&quot;;
+open SH, &quot;&gt;$ARGV[1]/run.sh&quot;;
+#将pep格式文件合并成all.fasta
+print SH &quot;cat $ARGV[0]/* &gt; $ARGV[1]/all.fasta\n&quot;;
+#all.fasta转换成orthomcl需要的格式，输出文件为hsa.fasta
+print SH &quot;$bin_path/orthomclAdjustFasta hsa $ARGV[1]/all.fasta 1\n\n&quot;;
+#新建文件夹compliantFasta，并转移文件hsa.fasta至此文件夹
+print SH &quot;mkdir $ARGV[1]/compliantFasta\n&quot;;
+print SH &quot;mv $ARGV[1]/hsa.fasta $ARGV[1]/compliantFasta/\n&quot;;
+#过滤蛋白文件，pep序列长度不低于10, stop coden所占的百分比不高于20%
+print SH &quot;$bin_path/orthomclFilterFasta $ARGV[1]/compliantFasta/ 10 20\n&quot;;
+#建库并blast为mcl提供相似矩阵
+print SH &quot;formatdb -i $ARGV[1]/goodProteins.fasta -p T\n&quot;;
+print SH &quot;blastall -p blastp -i $ARGV[1]/goodProteins.fasta -d $ARGV[1]/goodProteins.fasta -m 8  F -b 1000 -v 1000 -a 2 -o all_VS_all.out.tab&quot;;
+#将blast结果进行解析
+print SH &quot;$bin_path/orthomclBlastParser all_VS_all.out.tab  $ARGV[0]/compliantFasta/ &gt;&gt; $ARGV[0]/similarSequences.txt\n&quot;;
+#将解析好的结果导入到mysql中
+print SH &quot;$bin_path/orthomclLoadBlast $orthomcl_config $ARGV[0]/similarSequences.txt\n&quot;;
+#对数据库中SimilarSequences表进行pairs运算，并在数据库中产生三个表
+print SH &quot;$bin_path/orthomclPairs $orthomcl_config $ARGV[0]/orthomcl_pairs.log cleanup=no\n&quot;;
+#处理数据库中pairs表，生成mclInput文件和一个文件夹pairs
+print SH &quot;$bin_path/orthomclDumpPairsFiles $orthomcl_config\n&quot;;
+#对上一步结果进行mcl操作，开始聚类
+print SH &quot;mcl $ARGV[0]/mclInput --abc -I 1.5 -o $ARGV[0]/mclOutput\n&quot;;
+#将上步操作结果转换成groups.txt
+print SH &quot;$bin_path/orthomclMclToGroups my_prefix 1 &lt; mclOutput &gt; groups.txt\n&quot;;
+close SH;
+system &quot;sh $ARGV[1]/run.sh&quot;;
+</code></pre><h5 id="orthomcl-config配制文件"><a href="#orthomcl-config配制文件" class="headerlink" title="orthomcl.config配制文件"></a>orthomcl.config配制文件</h5><pre><code># this config assumes a mysql database named &apos;orthomcl&apos;.  adjust according
+# to your situation.
+dbVendor=mysql
+dbConnectString=dbi:mysql:orthomcl:localhost:3306
+dbLogin=root
+dbPassword=biosoft
+similarSequencesTable=SimilarSequences
+orthologTable=Ortholog
+inParalogTable=InParalog
+coOrthologTable=CoOrtholog
+interTaxonMatchView=InterTaxonMatch
+percentMatchCutoff=50
+evalueExponentCutoff=-5
+oracleIndexTblSpc=NONE
+</code></pre><h5 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h5><p><a href="https://www.cbil.upenn.edu/svn/apidb/OrthoMCLEngine/branches/2.0-bundle-msh/Main/doc/UserGuide.txt" target="_blank" rel="external">官方user guide</a><br><a href="http://blog.sina.com.cn/s/blog_5d1edf6a01012imb.html" target="_blank" rel="external">orthomcl使用</a><br><a href="http://www.cnblogs.com/zhangzhu/archive/2013/07/04/3172486.html" target="_blank" rel="external">mysql命令大全</a></p>
 
       
     </div>
@@ -353,6 +415,8 @@
         <div class="post-tags">
           
             <a href="/tags/software/" rel="tag">#software</a>
+          
+            <a href="/tags/cluster/" rel="tag">#cluster</a>
           
         </div>
       
@@ -456,7 +520,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -490,7 +554,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-6"><a class="nav-link" href="#二级标题"><span class="nav-number">1.</span> <span class="nav-text">二级标题</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#参考资料"><span class="nav-number">2.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#辅助工具"><span class="nav-number">2.</span> <span class="nav-text">辅助工具</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#BLAST"><span class="nav-number">2.1.</span> <span class="nav-text">BLAST</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Database"><span class="nav-number">2.2.</span> <span class="nav-text">Database</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Perl"><span class="nav-number">2.3.</span> <span class="nav-text">Perl</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#MCL-program"><span class="nav-number">2.4.</span> <span class="nav-text">MCL program</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Time"><span class="nav-number">2.5.</span> <span class="nav-text">Time</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#操作流程"><span class="nav-number">3.</span> <span class="nav-text">操作流程</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#安装和配置相关的数据库文件"><span class="nav-number">3.1.</span> <span class="nav-text">安装和配置相关的数据库文件</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#安装mcl"><span class="nav-number">3.2.</span> <span class="nav-text">安装mcl</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#安装Orthomcl"><span class="nav-number">3.3.</span> <span class="nav-text">安装Orthomcl</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#orthomclInstallSchema"><span class="nav-number">3.4.</span> <span class="nav-text">orthomclInstallSchema</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#orthomclAdjustFasta"><span class="nav-number">3.5.</span> <span class="nav-text">orthomclAdjustFasta</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#orthomclFilterFasta"><span class="nav-number">3.6.</span> <span class="nav-text">orthomclFilterFasta</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#All-v-all-BLAST"><span class="nav-number">3.7.</span> <span class="nav-text">All-v-all BLAST</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#orthomclBlastParser"><span class="nav-number">3.8.</span> <span class="nav-text">orthomclBlastParser</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#orthomclLoadBlast"><span class="nav-number">3.9.</span> <span class="nav-text">orthomclLoadBlast</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#orthomclPairs"><span class="nav-number">3.10.</span> <span class="nav-text">orthomclPairs</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#orthomclDumpPairsFiles"><span class="nav-number">3.11.</span> <span class="nav-text">orthomclDumpPairsFiles</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#mcl"><span class="nav-number">3.12.</span> <span class="nav-text">mcl</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#orthomclMclToGroups"><span class="nav-number">3.13.</span> <span class="nav-text">orthomclMclToGroups</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#流程代码（perl）"><span class="nav-number">4.</span> <span class="nav-text">流程代码（perl）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#orthomcl-config配制文件"><span class="nav-number">5.</span> <span class="nav-text">orthomcl.config配制文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#参考资料"><span class="nav-number">6.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
