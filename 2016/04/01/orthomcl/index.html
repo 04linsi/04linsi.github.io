@@ -63,7 +63,7 @@
 <meta property="og:url" content="http://www.bioinfo.site/2016/04/01/orthomcl/index.html">
 <meta property="og:site_name" content="Sam's Notes">
 <meta property="og:description" content="OrthoMCL可以将各个种的蛋白使用mcl (Markov Clustering algorithm)的方法进行聚类，查看蛋白家族水平上进化关系，或用于查找菌株的核心（共有）基因等">
-<meta property="og:updated_time" content="2016-04-09T04:04:45.000Z">
+<meta property="og:updated_time" content="2016-04-09T04:08:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OrthoMCL(v2.0.9) 使用介绍">
 <meta name="twitter:description" content="OrthoMCL可以将各个种的蛋白使用mcl (Markov Clustering algorithm)的方法进行聚类，查看蛋白家族水平上进化关系，或用于查找菌株的核心（共有）基因等">
@@ -344,9 +344,8 @@
 <blockquote>
 <p>这里比较重要的参数是-I 具体看<a href="http://www.micans.org/mcl/index.html?sec_description1" target="_blank" rel="external">mcl文档</a></p>
 </blockquote>
-<h6 id="orthomclMclToGroups（结果转换）"><a href="#orthomclMclToGroups（结果转换）" class="headerlink" title="orthomclMclToGroups（结果转换）"></a>orthomclMclToGroups（结果转换）</h6><p>将mcl的输出结果转换为groups.txt。<br><code>$bin_path/orthomclMclToGroups my_prefix 1 &lt; mclOutput &gt; groups.txt</code></p>
+<h6 id="orthomclMclToGroups（结果转换）"><a href="#orthomclMclToGroups（结果转换）" class="headerlink" title="orthomclMclToGroups（结果转换）"></a>orthomclMclToGroups（结果转换）</h6><p>将mcl的输出结果转换为groups.txt。my<em>prefix指定在groups.txt中每个家族的前缀，eg：abc</em> 则在groups.txt中，每个家族以abc_开始。1 表示家族从1开始编码。<br><code>$bin_path/orthomclMclToGroups my_prefix 1 &lt; mclOutput &gt; groups.txt</code></p>
 <blockquote>
-<p>my<em>prefix指定在groups.txt中每个家族的前缀，eg：abc</em> 则在groups.txt中，每个家族以abc_开始<br>1 表示家族从1开始编码</p>
 <p>groups.txt中的格式如下：<br>abc_1: r5|r5_37273 r5|r5_7773 r5|r5_39887 r5|r5_42220 r5|r5_40330 r5|r5_37989 r5|r5_40295<br>abc_2: r5|r5_4187 r5|r5_37986 r5|r5_8138 r5|r5_38203 r5|r5_3914 r5|r5_9613 r5|r5_9656 r5<br>abc_3: …..<br>每行代表一个家族（相当于将相似功能的基因聚类等），找到了这些家族，就可以开始其他分析了</p>
 </blockquote>
 <h5 id="流程代码（perl）"><a href="#流程代码（perl）" class="headerlink" title="流程代码（perl）"></a>流程代码（perl）</h5><pre><code>use DBI;
