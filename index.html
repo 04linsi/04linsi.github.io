@@ -295,7 +295,11 @@
         
           
             <h5 id="tmp"><a href="#tmp" class="headerlink" title="tmp"></a>tmp</h5><p>###### </p>
-<pre><code>ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase1/analysis_results/supporting/ancestral_alignments/
+<pre><code>-Xmx10g -XX:ParallelGCThreads=5
+qsub -cwd -l vf=10g -l p=5 -V shell.sh
+
+
+ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase1/analysis_results/supporting/ancestral_alignments/
 </code></pre><p>######<br><a href="http://" target="_blank" rel="external"></a></p>
 
           
