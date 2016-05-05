@@ -295,7 +295,9 @@
         
           
             <h5 id="tmp"><a href="#tmp" class="headerlink" title="tmp"></a>tmp</h5><p>###### </p>
-<pre><code>ftp/release/20130502/supporting/input_callsets/pindel/ALL.wgs.pindel.20130502.complexindel.low_coverage_discovery.NA12878confirmation.GL.20140714.vcf.gz
+<pre><code>java -XX:ParallelGCThreads=5 -Xmx10g -jar beagle.15Apr16.63e.jar gt=
+
+ftp/release/20130502/supporting/input_callsets/pindel/ALL.wgs.pindel.20130502.complexindel.low_coverage_discovery.NA12878confirmation.GL.20140714.vcf.gz
 -Xmx10g -XX:ParallelGCThreads=5
 qsub -cwd -l vf=10g -l p=5 -V shell.sh
 
