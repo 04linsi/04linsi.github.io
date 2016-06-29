@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="software,mapping,bwa," />
+  <meta name="keywords" content="python,file operate," />
 
 
 
@@ -57,16 +57,19 @@
 
 
 
-<meta name="description" content="短序列比对软件包，含三种算法：BWA-backtrack（用于短于100bp的reads）, BWA-SW 和 BWA-MEM（此二者用于70bp到1Mbp的reads，对高质量序列MEM速度和准确性更好，且在70-100bp上也优于BWA-backtrack）">
+<meta name="description" content="对python的文件操作进行小结，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="bwa 简要示例">
-<meta property="og:url" content="http://www.bioinfo.site/2016/03/22/bwa/index.html">
+<meta property="og:title" content="python文件操作小结">
+<meta property="og:url" content="http://www.bioinfo.site/2016/06/29/python-file/index.html">
 <meta property="og:site_name" content="Sam's Notes">
-<meta property="og:description" content="短序列比对软件包，含三种算法：BWA-backtrack（用于短于100bp的reads）, BWA-SW 和 BWA-MEM（此二者用于70bp到1Mbp的reads，对高质量序列MEM速度和准确性更好，且在70-100bp上也优于BWA-backtrack）">
-<meta property="og:updated_time" content="2016-03-27T08:17:15.000Z">
+<meta property="og:description" content="对python的文件操作进行小结，">
+<meta property="og:image" content="http://www.bioinfo.site/images/gatk_workflow2.png">
+<meta property="og:image" content="http://www.bioinfo.site/images/gatk_workflow1.png">
+<meta property="og:updated_time" content="2016-06-29T08:58:42.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="bwa 简要示例">
-<meta name="twitter:description" content="短序列比对软件包，含三种算法：BWA-backtrack（用于短于100bp的reads）, BWA-SW 和 BWA-MEM（此二者用于70bp到1Mbp的reads，对高质量序列MEM速度和准确性更好，且在70-100bp上也优于BWA-backtrack）">
+<meta name="twitter:title" content="python文件操作小结">
+<meta name="twitter:description" content="对python的文件操作进行小结，">
+<meta name="twitter:image" content="http://www.bioinfo.site/images/gatk_workflow2.png">
 
 
 
@@ -84,7 +87,7 @@
   };
 </script>
 
-  <title> bwa 简要示例 | Sam's Notes </title>
+  <title> python文件操作小结 | Sam's Notes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -244,7 +247,7 @@
             
             
               
-                bwa 简要示例
+                python文件操作小结
               
             
           </h1>
@@ -256,8 +259,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-22T22:07:04+08:00" content="2016-03-22">
-              2016-03-22
+            <time itemprop="dateCreated" datetime="2016-06-29T16:47:51+08:00" content="2016-06-29">
+              2016-06-29
             </time>
           </span>
 
@@ -270,8 +273,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
                   </a>
                 </span>
 
@@ -286,8 +289,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/03/22/bwa/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/22/bwa/" itemprop="commentsCount"></span>
+                <a href="/2016/06/29/python-file/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/29/python-file/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -309,99 +312,18 @@
       
 
       
-        <h5 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h5><pre><code>Program: bwa (alignment via Burrows-Wheeler transformation)
-Version: 0.7.10-r789
-Contact: Heng Li &lt;lh3@sanger.ac.uk&gt;
-
-Usage:   bwa &lt;command&gt; [options]
-
-Command: index         index sequences in the FASTA format
-         mem           BWA-MEM algorithm
-         fastmap       identify super-maximal exact matches
-         pemerge       merge overlapping paired ends (EXPERIMENTAL)
-         aln           gapped/ungapped alignment
-         samse         generate alignment (single ended)
-         sampe         generate alignment (paired ended)
-         bwasw         BWA-SW for long queries
-
-         fa2pac        convert FASTA to PAC format
-         pac2bwt       generate BWT from PAC
-         pac2bwtgen    alternative algorithm for generating BWT
-         bwtupdate     update .bwt to the new format
-         bwt2sa        generate SA from BWT and Occ
-
-Note: To use BWA, you need to first index the genome with `bwa index&apos;.
-      There are three alignment algorithms in BWA: `mem&apos;, `bwasw&apos;, and
-      `aln/samse/sampe&apos;. If you are not sure which to use, try `bwa mem&apos;
-      first. Please `man ./bwa.1&apos; for the manual.
-</code></pre><h5 id="BWA-backtrack方法"><a href="#BWA-backtrack方法" class="headerlink" title="BWA-backtrack方法"></a>BWA-backtrack方法</h5><h6 id="建立索引"><a href="#建立索引" class="headerlink" title="建立索引"></a>建立索引</h6><pre><code>Usage:   bwa index [-a bwtsw|is] [-c] &lt;in.fasta&gt;
-
-Options: -a STR    BWT construction algorithm: bwtsw or is [auto]
-         -p STR    prefix of the index [same as fasta name]
-         -6        index files named as &lt;in.fasta&gt;.64.* instead of &lt;in.fasta&gt;.*
-
-Warning: `-a bwtsw&apos; does not work for short genomes, while `-a is&apos; and
-         `-a div&apos; do not work not for long genomes. Please choose `-a&apos;
-         according to the length of the genome.
-</code></pre><p><code>bwa index -a bwtsw ref.fa</code> (如果是短基因组，使用-a is)注：多短才算短？？？？</p>
-<h6 id="比对"><a href="#比对" class="headerlink" title="比对"></a>比对</h6><p>Usage:   bwa aln [options] <prefix> <in.fq></in.fq></prefix></p>
-<pre><code>Options: -n NUM    max #diff (int) or missing prob under 0.02 err rate (float) [0.04]
-         -o INT    maximum number or fraction of gap opens [1]
-         -e INT    maximum number of gap extensions, -1 for disabling long gaps [-1]
-         -i INT    do not put an indel within INT bp towards the ends [5]
-         -d INT    maximum occurrences for extending a long deletion [10]
-         -l INT    seed length [32]
-         -k INT    maximum differences in the seed [2]
-         -m INT    maximum entries in the queue [2000000]
-         -t INT    number of threads [1]
-         -M INT    mismatch penalty [3]
-         -O INT    gap open penalty [11]
-         -E INT    gap extension penalty [4]
-         -R INT    stop searching when there are &gt;INT equally best hits [30]
-</code></pre><p><code>bwa aln ref.fa 1.fastq &gt; 1.sai</code><br><code>bwa aln ref.fa 2.fastq &gt; 2.sai</code></p>
-<h6 id="生成sam文件"><a href="#生成sam文件" class="headerlink" title="生成sam文件"></a>生成sam文件</h6><pre><code>Usage:   bwa sampe [options] &lt;prefix&gt; &lt;in1.sai&gt; &lt;in2.sai&gt; &lt;in1.fq&gt; &lt;in2.fq&gt;
-
-Options: -a INT   maximum insert size [500]
-         -o INT   maximum occurrences for one end [100000]
-         -n INT   maximum hits to output for paired reads [3]
-         -N INT   maximum hits to output for discordant pairs [10]
-         -c FLOAT prior of chimeric rate (lower bound) [1.0e-05]
-         -f FILE  sam file to output results to [stdout]
-         -r STR   read group header line such as `@RG\tID:foo\tSM:bar&apos; [null]
-         -P       preload index into memory (for base-space reads only)
-         -s       disable Smith-Waterman for the unmapped mate
-         -A       disable insert size estimate (force -s)
-
-Notes: 1. For SOLiD reads, &lt;in1.fq&gt; corresponds R3 reads and &lt;in2.fq&gt; to F3.
-       2. For reads shorter than 30bp, applying a smaller -o is recommended to
-          to get a sensible speed at the cost of pairing accuracy.
-</code></pre><p><em>pair-end reads数据</em><br><code>bwa sampe -f output.sam ref.fa 1.sai 2.sai 1.fastq 2.fastq</code><br>或 <code>bwa sampe ref.fa 1.sai 2.sai 1.fastq 2.fastq &gt; output.sam</code></p>
-<p><em>single reads数据</em><br><code>bwa samse -f output.sam ref.fa single.sai single.fastq</code></p>
-<h5 id="BWA-MEM方法"><a href="#BWA-MEM方法" class="headerlink" title="BWA-MEM方法"></a>BWA-MEM方法</h5><h6 id="建立索引-1"><a href="#建立索引-1" class="headerlink" title="建立索引"></a>建立索引</h6><p><code>bwa index -a ref.fa</code></p>
-<h6 id="比对并生成sam文件"><a href="#比对并生成sam文件" class="headerlink" title="比对并生成sam文件"></a>比对并生成sam文件</h6><pre><code>Usage: bwa mem [options] &lt;idxbase&gt; &lt;in1.fq&gt; [in2.fq]
-
-Algorithm options:
-
-       -t INT        number of threads [1]
-       -k INT        minimum seed length [19]
-       -w INT        band width for banded alignment [100]
-       -d INT        off-diagonal X-dropoff [100]
-       -r FLOAT      look for internal seeds inside a seed longer than {-k} * FLOAT [1.5]
-       -c INT        skip seeds with more than INT occurrences [500]
-       ......
-</code></pre><p><code>bwa mem ref.fa 1.fq 2.fq &gt; result.sam</code></p>
-<h5 id="BWA-SW方法"><a href="#BWA-SW方法" class="headerlink" title="BWA-SW方法"></a>BWA-SW方法</h5><h6 id="建立索引-2"><a href="#建立索引-2" class="headerlink" title="建立索引"></a>建立索引</h6><p><code>bwa index -a ref.fa</code></p>
-<h6 id="比对并生成sam文件-1"><a href="#比对并生成sam文件-1" class="headerlink" title="比对并生成sam文件"></a>比对并生成sam文件</h6><pre><code>Usage:   bwa bwasw [options] &lt;target.prefix&gt; &lt;query.fa&gt; [query2.fa]
-
-Options: -a INT   score for a match [1]
-         -b INT   mismatch penalty [3]
-         -q INT   gap open penalty [5]
-         -r INT   gap extension penalty [2]
-         -w INT   band width [50]
-         -m FLOAT mask level [0.50]
-         ......
-</code></pre><p><code>bwa bwasw ref.fa long_read.fq &gt; aln.sam</code></p>
-<h6 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h6><p><a href="http://bio-bwa.sourceforge.net/" target="_blank" rel="external">bwa官网</a><br><a href="http://www.plob.org/2011/03/06/25.html" target="_blank" rel="external">bwa的使用方法</a></p>
+        <h4 id="整体流程"><a href="#整体流程" class="headerlink" title="整体流程"></a>整体流程</h4><p>先盗两整体流程框架图，一个是最新的，一个是以前的。整个流程分三个阶段，分别是预处理（pre-processing）、variant discovery和cassset refinement</p>
+<p><img src="/images/gatk_workflow2.png" alt="gatk_best_practices_1"></p>
+<p><img src="/images/gatk_workflow1.png" alt="gatk_best_practices_1"></p>
+<h4 id="预处理（pre-processing）"><a href="#预处理（pre-processing）" class="headerlink" title="预处理（pre-processing）"></a>预处理（pre-processing）</h4><p>预处理的输入文件为原始测序数据（fastaq或uBAM文件均可），并生成用于分析的BAM文件。<br>操作步骤（处理过程）包括比对到基因组和一些数据清理操作使技术（偏见正确？）并使数据便于（后续）分析</p>
+<p>index(bwa) -&gt; aln(bwa) -&gt; sampe(bwa) -&gt; view(samtools) -&gt; sortsam(picard-tools) -&gt; MarkDuplicates(picard-tools) -&gt; GenomeAnalysisTK(GATK本地重排，生成重排位置信息) -&gt; GenomeAnalysisTK(GATK本地重排，重排) -&gt; （校正，对低覆盖度的数据很重要）</p>
+<h5 id="bwa处理"><a href="#bwa处理" class="headerlink" title="bwa处理"></a>bwa处理</h5><h6 id="参考基因组构建索引（BWA比对）"><a href="#参考基因组构建索引（BWA比对）" class="headerlink" title="参考基因组构建索引（BWA比对）"></a>参考基因组构建索引（BWA比对）</h6><p>GATK要求输入文件是bam格式的，网站上推荐使用bwa进行mapping，bwa速度上比较有优势，而且输出的结果是sam格式的，用samtools转换成bam格式即可。</p>
+<p><code>bwa index -a bwtsw ucsc.hg19.fasta</code> （短序列使用-a is）</p>
+<h6 id="生成sam格式的比对文件（BWA比对）"><a href="#生成sam格式的比对文件（BWA比对）" class="headerlink" title="生成sam格式的比对文件（BWA比对）"></a>生成sam格式的比对文件（BWA比对）</h6><p><code>bwa mem ref.fasta 1.fq 2.fq &gt; result.01.sam</code></p>
+<p><em>注：此样本的测序深度较高，reads读长大于100bp（具体多少？），所以不用其它两种算法（其它两种是什么），而采用mem算法</em></p>
+<p>(可以不做？)###### 对sam文件进行重新排序</p>
+<p><code>java -jar picard-tools-1.119/ReorderSam.jar I=result.01.sam O=result.reorder.02.sam R=ref.fasta</code></p>
+<h6 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h6><p><a href="http://" target="_blank" rel="external"></a></p>
 
       
     </div>
@@ -416,11 +338,9 @@ Options: -a INT   score for a match [1]
       
         <div class="post-tags">
           
-            <a href="/tags/software/" rel="tag">#software</a>
+            <a href="/tags/python/" rel="tag">#python</a>
           
-            <a href="/tags/mapping/" rel="tag">#mapping</a>
-          
-            <a href="/tags/bwa/" rel="tag">#bwa</a>
+            <a href="/tags/file-operate/" rel="tag">#file operate</a>
           
         </div>
       
@@ -429,16 +349,16 @@ Options: -a INT   score for a match [1]
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/22/bowtie/" rel="next" title="bowtie2 简单说明示例">
-                <i class="fa fa-chevron-left"></i> bowtie2 简单说明示例
+              <a href="/2016/05/03/tmp/" rel="next" title="tmp">
+                <i class="fa fa-chevron-left"></i> tmp
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/03/22/samtools/" rel="prev" title="samtools 简要示例">
-                samtools 简要示例 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/06/29/python-argparse/" rel="prev" title="python的argparse模块说明">
+                python的argparse模块说明 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -465,8 +385,8 @@ Options: -a INT   score for a match [1]
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/03/22/bwa/"
-           data-title="bwa 简要示例" data-url="http://www.bioinfo.site/2016/03/22/bwa/">
+      <div class="ds-thread" data-thread-key="2016/06/29/python-file/"
+           data-title="python文件操作小结" data-url="http://www.bioinfo.site/2016/06/29/python-file/">
       </div>
     
   </div>
@@ -562,7 +482,7 @@ Options: -a INT   score for a match [1]
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#参数说明"><span class="nav-number">1.</span> <span class="nav-text">参数说明</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BWA-backtrack方法"><span class="nav-number">2.</span> <span class="nav-text">BWA-backtrack方法</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#建立索引"><span class="nav-number">2.1.</span> <span class="nav-text">建立索引</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#比对"><span class="nav-number">2.2.</span> <span class="nav-text">比对</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#生成sam文件"><span class="nav-number">2.3.</span> <span class="nav-text">生成sam文件</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BWA-MEM方法"><span class="nav-number">3.</span> <span class="nav-text">BWA-MEM方法</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#建立索引-1"><span class="nav-number">3.1.</span> <span class="nav-text">建立索引</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#比对并生成sam文件"><span class="nav-number">3.2.</span> <span class="nav-text">比对并生成sam文件</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BWA-SW方法"><span class="nav-number">4.</span> <span class="nav-text">BWA-SW方法</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#建立索引-2"><span class="nav-number">4.1.</span> <span class="nav-text">建立索引</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#比对并生成sam文件-1"><span class="nav-number">4.2.</span> <span class="nav-text">比对并生成sam文件</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#参考资料"><span class="nav-number">4.3.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#整体流程"><span class="nav-number">1.</span> <span class="nav-text">整体流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#预处理（pre-processing）"><span class="nav-number">2.</span> <span class="nav-text">预处理（pre-processing）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#bwa处理"><span class="nav-number">2.1.</span> <span class="nav-text">bwa处理</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#参考基因组构建索引（BWA比对）"><span class="nav-number">2.1.1.</span> <span class="nav-text">参考基因组构建索引（BWA比对）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#生成sam格式的比对文件（BWA比对）"><span class="nav-number">2.1.2.</span> <span class="nav-text">生成sam格式的比对文件（BWA比对）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#参考资料"><span class="nav-number">2.1.3.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
