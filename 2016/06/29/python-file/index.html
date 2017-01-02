@@ -59,17 +59,14 @@
 
 <meta name="description" content="对python的文件操作进行小结，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="python文件操作小结">
+<meta property="og:title" content="python文件和目录操作小结">
 <meta property="og:url" content="http://www.bioinfo.site/2016/06/29/python-file/index.html">
 <meta property="og:site_name" content="Sam's Notes">
 <meta property="og:description" content="对python的文件操作进行小结，">
-<meta property="og:image" content="http://www.bioinfo.site/images/gatk_workflow2.png">
-<meta property="og:image" content="http://www.bioinfo.site/images/gatk_workflow1.png">
-<meta property="og:updated_time" content="2016-06-29T08:58:42.000Z">
+<meta property="og:updated_time" content="2016-07-01T01:30:43.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="python文件操作小结">
+<meta name="twitter:title" content="python文件和目录操作小结">
 <meta name="twitter:description" content="对python的文件操作进行小结，">
-<meta name="twitter:image" content="http://www.bioinfo.site/images/gatk_workflow2.png">
 
 
 
@@ -87,7 +84,7 @@
   };
 </script>
 
-  <title> python文件操作小结 | Sam's Notes </title>
+  <title> python文件和目录操作小结 | Sam's Notes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -247,7 +244,7 @@
             
             
               
-                python文件操作小结
+                python文件和目录操作小结
               
             
           </h1>
@@ -312,18 +309,29 @@
       
 
       
-        <h4 id="整体流程"><a href="#整体流程" class="headerlink" title="整体流程"></a>整体流程</h4><p>先盗两整体流程框架图，一个是最新的，一个是以前的。整个流程分三个阶段，分别是预处理（pre-processing）、variant discovery和cassset refinement</p>
-<p><img src="/images/gatk_workflow2.png" alt="gatk_best_practices_1"></p>
-<p><img src="/images/gatk_workflow1.png" alt="gatk_best_practices_1"></p>
-<h4 id="预处理（pre-processing）"><a href="#预处理（pre-processing）" class="headerlink" title="预处理（pre-processing）"></a>预处理（pre-processing）</h4><p>预处理的输入文件为原始测序数据（fastaq或uBAM文件均可），并生成用于分析的BAM文件。<br>操作步骤（处理过程）包括比对到基因组和一些数据清理操作使技术（偏见正确？）并使数据便于（后续）分析</p>
-<p>index(bwa) -&gt; aln(bwa) -&gt; sampe(bwa) -&gt; view(samtools) -&gt; sortsam(picard-tools) -&gt; MarkDuplicates(picard-tools) -&gt; GenomeAnalysisTK(GATK本地重排，生成重排位置信息) -&gt; GenomeAnalysisTK(GATK本地重排，重排) -&gt; （校正，对低覆盖度的数据很重要）</p>
-<h5 id="bwa处理"><a href="#bwa处理" class="headerlink" title="bwa处理"></a>bwa处理</h5><h6 id="参考基因组构建索引（BWA比对）"><a href="#参考基因组构建索引（BWA比对）" class="headerlink" title="参考基因组构建索引（BWA比对）"></a>参考基因组构建索引（BWA比对）</h6><p>GATK要求输入文件是bam格式的，网站上推荐使用bwa进行mapping，bwa速度上比较有优势，而且输出的结果是sam格式的，用samtools转换成bam格式即可。</p>
-<p><code>bwa index -a bwtsw ucsc.hg19.fasta</code> （短序列使用-a is）</p>
-<h6 id="生成sam格式的比对文件（BWA比对）"><a href="#生成sam格式的比对文件（BWA比对）" class="headerlink" title="生成sam格式的比对文件（BWA比对）"></a>生成sam格式的比对文件（BWA比对）</h6><p><code>bwa mem ref.fasta 1.fq 2.fq &gt; result.01.sam</code></p>
-<p><em>注：此样本的测序深度较高，reads读长大于100bp（具体多少？），所以不用其它两种算法（其它两种是什么），而采用mem算法</em></p>
-<p>(可以不做？)###### 对sam文件进行重新排序</p>
-<p><code>java -jar picard-tools-1.119/ReorderSam.jar I=result.01.sam O=result.reorder.02.sam R=ref.fasta</code></p>
-<h6 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h6><p><a href="http://" target="_blank" rel="external"></a></p>
+        <p>###################################################<br>文件的操作：</p>
+<p>打开文件<br>f = open(‘test.txt’, ‘w’)</p>
+<p>#读写模式:r只读,r+读写,w新建(会覆盖原有文件),a追加,b二进制文件.</p>
+<p>f.read()    返回整个文件，<br>f.readline()        返回一行，（注返回的这一行算是不在file里了）<br>f.readlines()        把文件每一行作为一个list的一个成员，并返回这个list。其实它的内部是通过循环调用readline()来实现的。如果提供size参数，size是表示读取内容的总长，也就是说可能只读到文件的一部分。readlines()自动将文件内容分析成一个行的列表，该列表可以由 Python 的 for… in … 结构进行处理。<br>for line in f: print line    通过迭代器每次读入一行<br>f.write(‘test\n’)    #把str写到文件中，write()并不会在str后加上一个换行符。如果要写入字符串以外的数据,先将他转换为字符串.<br>f.close()        关闭文件</p>
+<p>例子：<br>test.txt:<br>1test1 test2<br>2slkdfj<br>3ssssssssss<br>4ddddddddddddd</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>f = open(‘test.txt’, ‘r’)</p>
+<p>f.read()<br>‘1test1 test2\n2slkdfj\n3ssssssssss\n4ddddddddddddd\n’</p>
+<p>test = f.readlines()<br>test<br>[‘1test1 test2\n’, ‘2slkdfj\n’, ‘3ssssssssss\n’, ‘4ddddddddddddd\n’]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>for line in f.readlines():        或者for line in f:<br>    print line.strip()<br>输出：<br>1test1 test2<br>2slkdfj<br>3ssssssssss<br>4ddddddddddddd</p>
+<p>###############################################################################################################################<br>shutil = shell utilities<br>shutil模块提供了大量的文件的高级操作。特别针对文件拷贝和删除，主要功能为目录和文件操作以及压缩操作。对单个文件的操作也可参见os模块。</p>
+<p>os模块对文件/文件夹的操作<br>1.得到当前工作目录，即当前Python脚本工作的目录路径: os.getcwd()<br>2.返回指定目录下的所有文件和目录名:os.listdir()   eg: os.listdir(‘/Users/sam’)，返回值为list<br>3.函数用来删除一个文件:os.remove()<br>4.删除多个目录：os.removedirs（r“c：\python”）</p>
+<p>5.检验给出的路径是否是一个文件：os.path.isfile()    返回值为True或False<br>6.检验给出的路径是否是一个目录：os.path.isdir()<br>7.判断是否是绝对路径：os.path.isabs()<br>获得绝对路径：os.path.abspath(name)<br>8.检验给出的路径是否真地存:os.path.exists()<br>9.返回一个路径的目录名和文件名:os.path.split()     eg os.path.split(‘/home/swaroop/byte/code/poem.txt’) 结果：(‘/home/swaroop/byte/code’, ‘poem.txt’)<br>连接目录与文件名或目录：os.path.join(path, name)<br>os.walk()<br>10.分离扩展名：os.path.splitext()<br>11.获取路径名：os.path.dirname()<br>12.获取文件名：os.path.basename()</p>
+<p>####################################<br>遍历迭代目录：os.walk()<br>得到一个三元tupple(dirpath, dirnames, filenames)，其中第一个为起始路径，第二个为起始路径下的文件夹，第三个是起始路径下的文件。<br>其中dirpath是一个string，代表目录的路径，dirnames是一个list，包含了dirpath下所有子目录的名字。filenames是一个list，包含了非目录文件的名字。这些名字不包含路径信息，如果需要得到全路径，需要使用os.path.join(dirpath, name).<br>例子：<br>for root,dirs,files in os.walk(rawdata_path):<br>    for filename in files:<br>        if filename.endswith(‘.txt’):<br>            abs_file1=os.path.join(root,filename)</p>
+<p>############################################<br>13.运行shell命令: os.system()<br>14.读取和设置环境变量:os.getenv() 与os.putenv()<br>15.给出当前平台使用的行终止符:os.linesep    Windows使用’\r\n’，Linux使用’\n’而Mac使用’\r’<br>16.指示你正在使用的平台：os.name       对于Windows，它是’nt’，而对于Linux/Unix用户，它是’posix’<br>17.重命名：os.rename（old， new）<br>18.创建多级目录：os.makedirs（r“c：\python\test”）<br>19.创建单个目录：os.mkdir（“test”）<br>20.获取文件属性：os.stat（file）<br>21.修改文件权限与时间戳：os.chmod（file）<br>22.终止当前进程：os.exit（）<br>23.获取文件大小：os.path.getsize（filename）</p>
+<p>####################################################################################################################################</p>
+<p>os和shutil模块对文件夹的操作</p>
+<p>1.创建目录<br>os.mkdir(“file”)<br>2.复制文件：<br>shutil.copyfile(“oldfile”,”newfile”)        #oldfile和newfile都只能是文件<br>shutil.copy(“oldfile”,”newfile”)            #oldfile只能是文件夹，newfile可以是文件，也可以是目标目录<br>3.复制文件夹：<br>4.shutil.copytree(“olddir”,”newdir”)        #olddir和newdir都只能是目录，且newdir必须不存在<br>5.重命名文件（目录）<br>os.rename(“oldname”,”newname”)              #文件或目录都是使用这条命令<br>6.移动文件（目录）<br>shutil.move(“oldpos”,”newpos”)<br>7.删除文件<br>os.remove(“file”)<br>8.删除目录<br>os.rmdir(“dir”)                             #只能删除空目录<br>shutil.rmtree(“dir”)                        #空目录、有内容的目录都可以删<br>9.转换目录<br>os.chdir(“path”)                            #换路径</p>
 
       
     </div>
@@ -386,7 +394,7 @@
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="2016/06/29/python-file/"
-           data-title="python文件操作小结" data-url="http://www.bioinfo.site/2016/06/29/python-file/">
+           data-title="python文件和目录操作小结" data-url="http://www.bioinfo.site/2016/06/29/python-file/">
       </div>
     
   </div>
@@ -482,7 +490,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#整体流程"><span class="nav-number">1.</span> <span class="nav-text">整体流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#预处理（pre-processing）"><span class="nav-number">2.</span> <span class="nav-text">预处理（pre-processing）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#bwa处理"><span class="nav-number">2.1.</span> <span class="nav-text">bwa处理</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#参考基因组构建索引（BWA比对）"><span class="nav-number">2.1.1.</span> <span class="nav-text">参考基因组构建索引（BWA比对）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#生成sam格式的比对文件（BWA比对）"><span class="nav-number">2.1.2.</span> <span class="nav-text">生成sam格式的比对文件（BWA比对）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#参考资料"><span class="nav-number">2.1.3.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
@@ -503,8 +511,8 @@
       <div class="footer-inner">
         <div class="copyright" >
   
-  &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
